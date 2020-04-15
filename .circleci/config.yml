@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.3-node-browsers
+    steps:
+      - checkout
+      - run:
+          name: Install System Dependencies
+          command: sudo apt-get install -y libpng-dev
+      - run:
+          name: Install PHP Extensions
+          command: sudo docker-php-ext-install gd
+      - run:
+          name: Deploy Markdown Content
+          command: |
+            COMMIT_HASH=$([[ -f LAST_DEPLOYED_HASH ]] && cat LAST_DEPLOYED_HASH || echo "")
+            php ./scripts/Deploy.php "$COMMIT_HASH"
+      - run:
+          name: Update/Commit Last Deployed Hash
+          command: |
+            git rev-parse HEAD >> LAST_DEPLOYED_HASH
+            git add LAST_DEPLOYED_HASH
+            git commit -m "Updated the deployed hash."
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
