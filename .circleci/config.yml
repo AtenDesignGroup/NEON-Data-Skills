@@ -12,6 +12,11 @@ jobs:
           name: Install PHP Extensions
           command: sudo docker-php-ext-install gd
       - run:
+          name: Setup Git Configuration
+          command: |
+            git config --global user.email "ci@atendesigngroup.com"
+            git config --global user.name "Deploy Bot"
+      - run:
           name: Deploy Markdown Content
           command: |
             COMMIT_HASH=$([[ -f LAST_DEPLOYED_HASH ]] && cat LAST_DEPLOYED_HASH || echo "")

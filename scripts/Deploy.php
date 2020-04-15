@@ -56,8 +56,13 @@ exit(0);
 // ******************************
 
 /**
+ * Find all the tutorial markdown files.
+ *
  * @param string|null $commit
+ *   The last commit hash that was deployed.
+ *
  * @return array
+ *   An array of all the markdown files.
  */
 function findTutorialMarkdownFiles(string $commit = null): array
 {
