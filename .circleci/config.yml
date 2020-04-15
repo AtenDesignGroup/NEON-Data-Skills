@@ -27,6 +27,7 @@ jobs:
             git rev-parse HEAD >> LAST_DEPLOYED_HASH
             git add LAST_DEPLOYED_HASH
             git commit -m "Updated the deployed hash."
+            git push
 
 workflows:
   version: 2
