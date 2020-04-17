@@ -22,15 +22,13 @@ dirs <- c("R/eddy4r/",
 
 # set directory (order above) that you'd like to build
 
-subDir <- dirs[3]
-
+subDir <- dirs[10] 
 
 # Inputs - Where the git repo is on your computer
-gitRepoPath <-"~/GitHub/NEON-Data-Skills"
+gitRepoPath <-"~/Git/NEON-Data-Skills"
 
 # set working dir - this is where the data are located
-
-wd_processing_doc <- "~/Documents/data"
+wd_processing_doc <- "~/Git/data"
 
 ################### CONFIG BELOW IS REQUIRED BY JEKYLL - DON'T CHANGE ##########
 #set data working dir
