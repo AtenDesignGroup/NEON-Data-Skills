@@ -1,16 +1,16 @@
 ---
 syncID: 341f22ea46904019a993e1fbc7a70937
-title: "Publish Code - From R Markdown to HTML with knitr"
-description: "This tutorial introduces how to use the R knitr package to publish from R Markdown files to HTML (or other) file format."
+title: Publish Code - From R Markdown to HTML with knitr
+description: This tutorial introduces how to use the R knitr package to publish from R Markdown files to HTML (or other) file format.
 dateCreated: 2016-01-01
-authors:
-contributors:
-estimatedTime:
-packagesLibraries: [knitr, rmarkdown]
-topics: data-management
-languagesTool: R
-dataProducts:
-code1:
+authors: Joel, Travis, Rob
+contributors: Travis
+estimatedTime: One Hour
+packagesLibraries: ggtheme
+topics: Data Visualization, Data Management
+languagesTool: R, API
+dataProducts: DP1.00098.001 | Relative humidity, DP2.00006.001 | Temporally interpolated soil temperature
+code1: https://github.com/AtenDesignGroup/NEON-Data-Skills/blob/master/tutorials/R/R-skills/using-r-markdown/Rmd03-knitr/Rmd03-knitr.html, https://github.com/AtenDesignGroup/NEON-Data-Skills/blob/master/tutorials/R/R-skills/using-r-markdown/Rmd03-knitr/Rmd03-knitr.Rmd
 tutorialSeries: [RMarkdown]
 urlTitle: rmd-use-knitr
 ---
@@ -52,9 +52,9 @@ from our code, reducing the risk of accidental copy and paste or transcription e
 
 To complete this tutorial you need:
 
-1. The R `knitr` package to complete this tutorial. If you need help installing 
+1. The R `knitr` package to complete this tutorial. If you need help installing
 packages, visit
-<a href="https://www.neonscience.org/packages-in-r" target="_blank"> the R packages tutorial</a>.  
+<a href="https://www.neonscience.org/packages-in-r" target="_blank"> the R packages tutorial</a>.
 2. An R Markdown document that contains a YAML header, code chunks and markdown
 segments. If you don't have an **.Rmd** file, visit
 <a href="https://www.neonscience.org/rmd-code-intro" target="_blank"> the R Markdown tutorial</a> to create one.
@@ -77,10 +77,10 @@ and the size of your data.
 	</figcaption>
 </figure>
 
-To knit in RStudio, click the **knit** pull down button. You want to use the  
+To knit in RStudio, click the **knit** pull down button. You want to use the
 **knit HTML** for this lesson.
 
-When you click the **Knit HTML** button, a  window will open in your console 
+When you click the **Knit HTML** button, a  window will open in your console
 titled R Markdown. This
 pane shows the knitting progress. The output (HTML in this case) file will
 automatically be saved in the current working directory. If there is an error
@@ -121,16 +121,16 @@ results of the code that you included in the RMD document.
 
 ## Data Institute Participants: Complete Week 2 Assignment
 
-* Read 
+* Read
 <a href="https://www.neonscience.org/di-rmd-activity" target="_blank"> this week’s assignment </a>
 closely.
 * Be sure to carefully check your knitr output to make sure it is rendering the
 way you think it should!
-* When you are complete, submit your .Rmd and .html files to the 
-NEON Institute participants GitHub repository 
-(**NEONScience/DI-NEON-participants**). 
-* The files will have automatically saved to your R working directory, you will 
-need to transfer the files to the **/participants/pre-institute3-rmd/** 
+* When you are complete, submit your .Rmd and .html files to the
+NEON Institute participants GitHub repository
+(**NEONScience/DI-NEON-participants**).
+* The files will have automatically saved to your R working directory, you will
+need to transfer the files to the **/participants/pre-institute3-rmd/**
 directory and submitted via a **pull request**.
 
 </div>
