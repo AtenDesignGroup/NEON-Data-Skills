@@ -1,7 +1,7 @@
 ---
 syncID: 341f22ea46904019a993e1fbc7a70937
-title: Publish Code - From R Markdown to HTML with knitr
-description: This tutorial introduces how to use the R knitr package to publish from R Markdown files to HTML (or other) file format.
+title: "Publish Code - From R Markdown to HTML with knitr"
+description: "This tutorial introduces how to use the R knitr package to publish from R Markdown files to HTML (or other) file format."
 dateCreated: 2016-01-01
 authors: Joel, Travis, Rob
 contributors: Travis
@@ -10,7 +10,7 @@ packagesLibraries: ggtheme
 topics: Data Visualization, Data Management
 languagesTool: R, API
 dataProducts: DP1.00098.001 | Relative humidity, DP2.00006.001 | Temporally interpolated soil temperature
-code1: https://github.com/AtenDesignGroup/NEON-Data-Skills/blob/master/tutorials/R/R-skills/using-r-markdown/Rmd03-knitr/Rmd03-knitr.html, https://github.com/AtenDesignGroup/NEON-Data-Skills/blob/master/tutorials/R/R-skills/using-r-markdown/Rmd03-knitr/Rmd03-knitr.Rmd
+code1: "https://github.com/AtenDesignGroup/NEON-Data-Skills/blob/master/tutorials/R/R-skills/using-r-markdown/Rmd03-knitr/Rmd03-knitr.html, https://github.com/AtenDesignGroup/NEON-Data-Skills/blob/master/tutorials/R/R-skills/using-r-markdown/Rmd03-knitr/Rmd03-knitr.Rmd"
 tutorialSeries: [RMarkdown]
 urlTitle: rmd-use-knitr
 ---
