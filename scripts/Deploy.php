@@ -213,7 +213,7 @@ function buildContentPayload(\SplFileObject $fileObject): array
                     'trim',
                     explode(':', $innerBuffer)
                 );
-                $payload[$key] = $value;
+                $payload[$key] = preg_replace('/(^[\"\']|[\"\']$)/', '', $value);
             };
         }
         $payload['content'] .= $buffer;
