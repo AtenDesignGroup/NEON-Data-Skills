@@ -7,9 +7,9 @@ authors: Joel, Travis, Rob
 contributors: Travis
 estimatedTime: One Hour
 packagesLibraries: ggtheme
-topics: Data Visualization, Data Management
+topics: "Data Visualization, Data Management"
 languagesTool: R, API
-dataProducts: DP1.00098.001 | Relative humidity, DP2.00006.001 | Temporally interpolated soil temperature
+dataProducts: "DP1.00098.001 | Relative humidity, DP2.00006.001 | Temporally interpolated soil temperature"
 code1: "https://github.com/AtenDesignGroup/NEON-Data-Skills/blob/master/tutorials/R/R-skills/using-r-markdown/Rmd03-knitr/Rmd03-knitr.html, https://github.com/AtenDesignGroup/NEON-Data-Skills/blob/master/tutorials/R/R-skills/using-r-markdown/Rmd03-knitr/Rmd03-knitr.Rmd"
 tutorialSeries: [RMarkdown]
 urlTitle: rmd-use-knitr
