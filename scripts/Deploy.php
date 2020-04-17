@@ -7,20 +7,18 @@ if (PHP_SAPI !== 'cli') {
 /**
  * @var array
  */
-const EXCLUDED_MARKDOWN_FILES = [
-    "readme"
-];
-
-/**
- * @var string
- */
-const HTTP_ENDPOINT = "https://master-7rqtwti-di4alr4iwbwyg.us-2.platformsh.site/neon-tutorials/webhook-capture";
+const EXCLUDED_MARKDOWN_FILES = ["readme"];
 
 // ******************************
 // ******** CLI Script **********
 // ******************************
 
-$commitHash = $argv[1] ?? null;
+$commitHash = getLastImportCommitHash() ?? null;
+
+printf(
+    "The last imported commit hash %s!",
+    !empty($commitHash) ? $commitHash : 'is empty'
+);
 
 foreach (findTutorialMarkdownFiles($commitHash) as $markdownFile) {
     if (!file_exists($markdownFile)) {
@@ -37,16 +35,27 @@ foreach (findTutorialMarkdownFiles($commitHash) as $markdownFile) {
     }
 
     if ($payload = buildContentPayload($fileObject)) {
-        $response = httpPostPayload(HTTP_ENDPOINT, $payload);
+        if ($httpUrl = getenv('WEBHOOK_HTTP_URL')) {
+            $response = httpRequest("{$httpUrl}/neon-tutorials/webhook-capture", 'POST', $payload);
 
-        if ($response['code'] !== 200) {
-            printf(
-                "Error: Got a %d an when posting the payload for %s!",
-                $response['code'],
-                $fileObject->getRealPath()
-            );
+            if ($response['code'] !== 200) {
+                printf(
+                    "Error: Got a %d an when posting the payload for %s!",
+                    $response['code'],
+                    $fileObject->getRealPath()
+                );
+            }
         }
     }
+}
+$newCommitHash = shell_exec('git rev-parse HEAD');
+
+if ($commitHash !== $newCommitHash) {
+    printf(
+        "The updated imported commit hash %s!",
+        $newCommitHash
+    );
+    setLastImportCommitHash($newCommitHash);
 }
 
 exit(0);
@@ -80,23 +89,91 @@ function findTutorialMarkdownFiles(string $commit = null): array
 }
 
 /**
- * HTTP post JSON payload.
+ * Get the last import commit hash.
+ *
+ * @return string|null
+ *   Return the last import commit hash from state.
+ */
+function getLastImportCommitHash()
+{
+    if ($httpUrl = getenv('WEBHOOK_HTTP_URL')) {
+        $response = httpRequest("{$httpUrl}/neon-tutorials/last-commit/get");
+
+        if ($response['code'] == 200) {
+            if ($body = json_decode($response['body'], true)) {
+                return trim($body['data']['hash']) ?? null;
+            }
+        }
+    }
+
+    return null;
+}
+
+/**
+ * Set the last import commit hash.
+ *
+ * @param string $hash
+ *   The git commit hash.
+ *
+ * @return bool
+ *   Return true if successful; otherwise false.
+ */
+function setLastImportCommitHash(string $hash): bool
+{
+    if ($httpUrl = getenv('WEBHOOK_HTTP_URL')) {
+        $response = httpRequest(
+            "{$httpUrl}/neon-tutorials/last-commit/set",
+            'POST',
+            ['hash' => $hash]
+        );
+
+        if ($response['code'] == 200) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Execute a HTTP request.
  *
  * @param string $url
  *   The HTTP URL.
+ * @param string $method
+ *   The HTTP method.
  * @param array $payload
  *   The payload data array.
+ * @param bool $signature
+ *   Set the payload to be signed.
  *
  * @return array
  *   An array of the response data.
  */
-function httpPostPayload(string $url, array $payload): array
+function httpRequest(string $url, string $method = 'GET', array $payload = [], bool $signature = true): array
 {
     $curl = curl_init($url);
 
-    curl_setopt($curl, CURLOPT_POST, true);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload));
-    curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type:application/json']);
+    $method = strtoupper($method);
+    $headers = ['Content-Type:application/json'];
+
+    if ($method === 'POST' && !empty($payload)) {
+        $payload = json_encode($payload);
+
+        if (
+            $signature
+            && $privateKey = getenv('WEBHOOK_PRIVATE_KEY')
+        ) {
+            $hmacSignature = base64_encode(hash_hmac(
+                'sha256', $payload, $privateKey, true
+            ));
+            $headers[] = "X-Webhook-Signature:{$hmacSignature}";
+        }
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+    }
+    curl_setopt($curl, CURLINFO_HEADER_OUT, true);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
     $response = curl_exec($curl);
@@ -120,7 +197,6 @@ function httpPostPayload(string $url, array $payload): array
 function buildContentPayload(\SplFileObject $fileObject): array
 {
     $payload = [
-        'metadata' => [],
         'content' => null,
     ];
     $fileObject->rewind();
@@ -133,10 +209,11 @@ function buildContentPayload(\SplFileObject $fileObject): array
                 if (strpos($innerBuffer, '---') !== false) {
                     continue 2;
                 }
-                $payload['metadata'][] = array_map(
+                list($key, $value) = array_map(
                     'trim',
                     explode(':', $innerBuffer)
                 );
+                $payload[$key] = $value;
             };
         }
         $payload['content'] .= $buffer;
