@@ -211,7 +211,7 @@ function buildContentPayload(\SplFileObject $fileObject): array
                 }
                 list($key, $value) = array_map(
                     'trim',
-                    explode(':', $innerBuffer)
+                    explode(': ', $innerBuffer)
                 );
                 $payload[$key] = preg_replace('/(^[\"\']|[\"\']$)/', '', $value);
             };
