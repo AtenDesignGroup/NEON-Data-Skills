@@ -1,19 +1,19 @@
 ---
 syncID: 31383d0105344f06bca692be74798305
 title: "Assignment: Version Control with GitHub"
-description: "Data Institute Assignment: The page lists the requirements for the week 2 assignment on version control and GitHub."
+description: "Test - Data Institute Assignment: The page lists the requirements for the week 2 assignment on version control and GitHub."
 dateCreated: 2016-06-02
 authors:
 contributors:
 estimatedTime:
 packagesLibraries:
 topics:
-language: 
-tutorialSeries: 
+language:
+tutorialSeries:
 languagesTool: git
 dataProduct:
 code1:
-tutorialSeries: 
+tutorialSeries:
 urlTitle: git-assignment
 ---
 
@@ -26,10 +26,10 @@ Through this week’s tutorials, you have learned the basic skills needed to
 successfully share your work at the Institute including how to:
 
 * Create your own GitHub user account,
-* Set up Git on your computer (please do this on the computer you will be 
+* Set up Git on your computer (please do this on the computer you will be
 bringing to the Institute), and
-* Create a Markdown file with a biography of yourself and the project you are 
-interested in working on at the Institute. This biography was shared with the 
+* Create a Markdown file with a biography of yourself and the project you are
+interested in working on at the Institute. This biography was shared with the
 group via the Data Institute’s GitHub repo.
 
 ## Checklist for this week’s Assignment:

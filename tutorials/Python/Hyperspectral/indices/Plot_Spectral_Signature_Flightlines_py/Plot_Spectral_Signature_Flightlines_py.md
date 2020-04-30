@@ -1,11 +1,11 @@
 ---
 syncID: c91d556c8fad4570a33a1aaa550a561d
 title: "Plot a Spectral Signature in Python - Flightline Data"
-description: "Learn how to extract and plot a spectral profile from a single pixel of a reflectance band using the NEON flightline hyperspectral data." 
-dateCreated: 2017-06-19 
+description: "Test - Learn how to extract and plot a spectral profile from a single pixel of a reflectance band using the NEON flightline hyperspectral data."
+dateCreated: 2017-06-19
 authors: Bridget Hass
-contributors: 
-estimatedTime: 
+contributors:
+estimatedTime:
 packagesLibraries: numpy, pandas, gdal, matplotlib, h5py,IPython.display
 topics: hyperspectral-remote-sensing, HDF5, remote-sensing
 languagesTool: python
@@ -15,18 +15,18 @@ tutorialSeries: intro-hsi-py-series
 urlTitle: plot-spec-sig-python
 ---
 
-In this tutorial, we will learn how to extract and plot a spectral profile 
-from a single pixel of a reflectance band in a NEON hyperspectral HDF5 file. 
+In this tutorial, we will learn how to extract and plot a spectral profile
+from a single pixel of a reflectance band in a NEON hyperspectral HDF5 file.
 
-This tutorial uses the flightline NEON data products. For a tutorial 
-using the tiled/mosaiced data, please see <a href="https://www.neonscience.org/plot-spec-sig-tiles-python" target="_blank"> Plot a Spectral Signature in Python - Tiled Data</a>. 
+This tutorial uses the flightline NEON data products. For a tutorial
+using the tiled/mosaiced data, please see <a href="https://www.neonscience.org/plot-spec-sig-tiles-python" target="_blank"> Plot a Spectral Signature in Python - Tiled Data</a>.
 
 <div id="ds-objectives" markdown="1">
 
 ### Objectives
 After completing this tutorial, you will be able to:
 
-* Plot the spectral signature of a single pixel 
+* Plot the spectral signature of a single pixel
 * Remove bad band windows from a spectra
 * Use a widget to interactively look at spectra of various pixels
 * Calculate the mean spectra over multiple pixels
@@ -35,32 +35,32 @@ After completing this tutorial, you will be able to:
 
 * **numpy**
 * **pandas**
-* **gdal** 
-* **matplotlib** 
-* **h5py** 
+* **gdal**
+* **matplotlib**
+* **h5py**
 * **IPython.display**
 
 
 ### Download Data
 
-<h3> <a href="https://neondata.sharefile.com/d-s11d5c8b9c53426db"> NEON Teaching Data Subset: Data Institute 2017 Data Set</a></h3> 
+<h3> <a href="https://neondata.sharefile.com/d-s11d5c8b9c53426db"> NEON Teaching Data Subset: Data Institute 2017 Data Set</a></h3>
 
 To complete this tutorial, you will use data available from the NEON 2017 Data
-Institute teaching dataset available for download. 
+Institute teaching dataset available for download.
 
-Caution: This dataset includes all the data for the 2017 Data Institute, 
-including hyperspectral and lidar datasets and is therefore a large file (12 GB). 
-Ensure that you have sufficient space on your 
-hard drive before you begin the download. If not, download to an external 
-hard drive and make sure to correct for the change in file path when working 
+Caution: This dataset includes all the data for the 2017 Data Institute,
+including hyperspectral and lidar datasets and is therefore a large file (12 GB).
+Ensure that you have sufficient space on your
+hard drive before you begin the download. If not, download to an external
+hard drive and make sure to correct for the change in file path when working
 through the tutorial.
 
-The LiDAR and imagery data used to create this raster teaching data subset 
-were collected over the 
-<a href="http://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a> 
+The LiDAR and imagery data used to create this raster teaching data subset
+were collected over the
+<a href="http://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a>
 <a href="http://www.neonscience.org/science-design/field-sites/" target="_blank" >field sites</a>
 and processed at NEON headquarters.
-The entire dataset can be accessed on the 
+The entire dataset can be accessed on the
 <a href="http://data.neonscience.org" target="_blank"> NEON data portal</a>.
 
 <a href="https://neondata.sharefile.com/d-s11d5c8b9c53426db" class="link--button link--arrow">
@@ -78,14 +78,14 @@ Download Dataset</a>
 </div>
 
 
-A spectral signature is a plot of the amount of light energy reflected by an 
-object throughout the range of wavelengths in the electromagnetic spectrum. The 
-spectral signature of an object conveys useful information about its structural 
-and chemical composition. We can use these signatures to identify and classify 
-different objects from a spectral image. 
+A spectral signature is a plot of the amount of light energy reflected by an
+object throughout the range of wavelengths in the electromagnetic spectrum. The
+spectral signature of an object conveys useful information about its structural
+and chemical composition. We can use these signatures to identify and classify
+different objects from a spectral image.
 
-For example, the atmosphere, soil, water, and vegetation have spectral signatures 
-of distinctly different shapes. 
+For example, the atmosphere, soil, water, and vegetation have spectral signatures
+of distinctly different shapes.
 
  <figure>
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/hyperspectral/spectralSignatures_MoleroGarzo.png">
@@ -97,13 +97,13 @@ of distinctly different shapes.
 
 
 
-Vegetation has a unique spectral signature characterized by high reflectance in 
-the near infrared (NIR) wavelengths, and much lower reflectance in the green portion 
-of the visible spectrum. We can extract reflectance values in the NIR and 
-visible spectrums from hyperspectral data in order to map vegetation on the 
-earth's surface. We will explore this more in another tutorial, 
-<a href="https://www.neonscience.org/HDF5/calc-ndvi-python/" target="_blank"> *Calculate NDVI with Python* </a>, 
-where we will caluclate a Vegetation Index.  
+Vegetation has a unique spectral signature characterized by high reflectance in
+the near infrared (NIR) wavelengths, and much lower reflectance in the green portion
+of the visible spectrum. We can extract reflectance values in the NIR and
+visible spectrums from hyperspectral data in order to map vegetation on the
+earth's surface. We will explore this more in another tutorial,
+<a href="https://www.neonscience.org/HDF5/calc-ndvi-python/" target="_blank"> *Calculate NDVI with Python* </a>,
+where we will caluclate a Vegetation Index.
 
 
  <figure>
@@ -117,11 +117,11 @@ where we will caluclate a Vegetation Index.
 
 ## Set Up Environment
 
-In this tutorial, we will learn how to extract and plot a spectral profile 
-from a single pixel of a reflectance band in a NEON hyperspectral hdf5 file. 
-To do this, we will use the **extract_band** function that we generated in 
-Lesson 2, and the Python package **pandas** to create a dataframe for the 
-reflectance and associated wavelength data. 
+In this tutorial, we will learn how to extract and plot a spectral profile
+from a single pixel of a reflectance band in a NEON hyperspectral hdf5 file.
+To do this, we will use the **extract_band** function that we generated in
+Lesson 2, and the Python package **pandas** to create a dataframe for the
+reflectance and associated wavelength data.
 
 
 ```python
@@ -131,16 +131,16 @@ reflectance and associated wavelength data.
 # import pandas as pd
 # import gdal
 # import matplotlib.pyplot as plt
-# import IPython.display 
+# import IPython.display
 # from PIL import Image
 
 # Set display preferences
-%matplotlib inline 
+%matplotlib inline
 import warnings
 warnings.filterwarnings('ignore') #don't display warnings
 ```
 
-Now we can load the data. 
+Now we can load the data.
 
 ```python
 %load neon_aop_refl_hdf5_functions
@@ -165,7 +165,7 @@ for item in sorted(sercRefl_md):
     res: {'pixelWidth': 1.0, 'pixelHeight': 1.0}
     scaleFactor: 10000.0
     shape: (10852, 1106, 426)
-    
+
 
 
 ```python
@@ -193,7 +193,7 @@ print('mean:',round(np.nanmean(serc_b56_subset),2))
     min: 0.0
     max: 1.59
     mean: 0.05
-    
+
 
 
 ```python
@@ -203,9 +203,9 @@ plot_band_array(serc_b56_subset,clipExtent,(0,0.3),title='SERC Subset Band 56',c
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/plot-spectral-sig-py/output_5_0.png)
 
 
-We can use `pandas` to create a dataframe containing the wavelength and 
-reflectance values for a single pixel - in this example, we'll look at pixel 
-(5000,500). 
+We can use `pandas` to create a dataframe containing the wavelength and
+reflectance values for a single pixel - in this example, we'll look at pixel
+(5000,500).
 
 
 ```python
@@ -232,7 +232,7 @@ print(serc_pixel_df.tail(5))
     423       0.2988    2501.9224
     424       0.6360    2506.9301
     425       1.4882    2511.9379
-    
+
 
 Now let's plot the spectra.
 
@@ -241,7 +241,7 @@ Now let's plot the spectra.
 serc_pixel_df.plot(x='wavelengths',y='reflectance',kind='scatter',edgecolor='none');
 plt.title('Spectral Signature for SERC Pixel (5000,500)')
 ax = plt.gca() # ax = fig.add_subplot(1,2,1)
-ax.set_xlim([np.min(wavelengths),np.max(wavelengths)]); 
+ax.set_xlim([np.min(wavelengths),np.max(wavelengths)]);
 ax.set_ylim([np.min(serc_pixel_df['reflectance']),np.max(serc_pixel_df['reflectance'])])
 ax.set_xlabel("Wavelength, nm"); ax.set_ylabel("Reflectance")
 ax.grid('on')
@@ -265,14 +265,14 @@ plt.plot((1955,1955),(0,1.5), 'r--')
 
 
 
-##  Water Vapor Band Windows 
-We can see from the spectral profile above that there are spikes in reflectance 
-around ~1400nm and ~1800nm. These result from water vapor which absorbs light 
-between wavelengths 1340-1445 nm and 1790-1955 nm. The atmospheric correction 
-that converts radiance to reflectance subsequently results in a spike at these 
-two bands. The wavelengths of these water vapor bands is stored in the 
-reflectance attributes, which is saved in the reflectance metadata dictionary 
-created with `h5refl2array`. 
+##  Water Vapor Band Windows
+We can see from the spectral profile above that there are spikes in reflectance
+around ~1400nm and ~1800nm. These result from water vapor which absorbs light
+between wavelengths 1340-1445 nm and 1790-1955 nm. The atmospheric correction
+that converts radiance to reflectance subsequently results in a spike at these
+two bands. The wavelengths of these water vapor bands is stored in the
+reflectance attributes, which is saved in the reflectance metadata dictionary
+created with `h5refl2array`.
 
 
 ```python
@@ -282,10 +282,10 @@ bbw2 = sercRefl_md['bad_band_window2']; print('Bad Band Window 2:',bbw2)
 
     Bad Band Window 1: [1340 1445]
     Bad Band Window 2: [1790 1955]
-    
 
-We can now set these bad band windows, along with the last 10 bands, which are 
-also often noisy (as seen in the spectral profile plotted above) to NaN, 
+
+We can now set these bad band windows, along with the last 10 bands, which are
+also often noisy (as seen in the spectral profile plotted above) to NaN,
 a standard no data value.
 
 
@@ -368,7 +368,7 @@ print(w)
       2431.8144  2436.8221  2441.8298  2446.8375  2451.8453  2456.853
       2461.8607        nan        nan        nan        nan        nan
             nan        nan        nan        nan        nan]
-    
+
 
 
 ```python
@@ -382,7 +382,7 @@ ax1 = fig.add_subplot(2,2,1)
 
 serc_pixel_df.plot(ax=ax1,x='wavelengths',y='refl_5000_500',kind='scatter',color='red',edgecolor='none');
 plt.title('Spectral Signature for SERC Pixel (5000,500)')
-ax1.set_xlim([np.min(wavelengths),np.max(wavelengths)]); 
+ax1.set_xlim([np.min(wavelengths),np.max(wavelengths)]);
 ax.set_ylim([np.min(serc_pixel_df['refl_5000_500']),np.max(serc_pixel_df['refl_5000_500'])*1.2])
 ax1.set_ylim(0,0.25)
 ax1.set_xlabel("Wavelength, nm"); ax.set_ylabel("Reflectance")
@@ -399,7 +399,7 @@ ax1.text(1850,0.205, 'Band Window 2: 1790-1955 nm', rotation='vertical')
 ax2 = fig.add_subplot(2,2,3)
 serc_pixel_df.plot(ax=ax2,x='wavelengths',y='refl_7500_500',kind='scatter',color='orange',edgecolor='none');
 plt.title('Spectral Signature for SERC Pixel (7500,500)')
-ax2.set_xlim([np.min(wavelengths),np.max(wavelengths)]); 
+ax2.set_xlim([np.min(wavelengths),np.max(wavelengths)]);
 ax.set_ylim([np.min(serc_pixel_df['refl_7500_500']),np.max(serc_pixel_df['refl_7500_500'])*1.2])
 ax2.set_ylim(0,0.25)
 ax2.set_xlabel("Wavelength, nm"); ax.set_ylabel("Reflectance")
@@ -438,8 +438,8 @@ ax3.set_ylim(sercRefl_md['extent'][2],sercRefl_md['extent'][3])
 
 ## Spectra of Pixel from Subset of Flight Line Reflectance Band
 
-It will be easier to visualize the pixel if we zoom in on a subset of data. 
-Let's take a look at the spectra of the subsetted area we explored in the 
+It will be easier to visualize the pixel if we zoom in on a subset of data.
+Let's take a look at the spectra of the subsetted area we explored in the
 previous lesson.
 
 
@@ -497,14 +497,14 @@ ax1.set_title('Spectra of Pixel ' + str(pixel))
 ax1.set_xlim([np.min(wavelengths),np.max(wavelengths)]); # ax2.set_ylim(0,0.25)
 ax1.set_ylim([np.min(serc_pixel_df['reflectance']),np.max(serc_pixel_df['reflectance'])*1.2])
 ax1.set_xlabel("Wavelength, nm"); ax.set_ylabel("Reflectance")
-ax1.grid('on'); 
+ax1.grid('on');
 
 ax2 = fig.add_subplot(1,2,2)
-plot = plt.imshow(serc_b56_subset,extent=clipExt,clim=(0,0.1)); 
-plt.title('SERC Subset Band 56'); 
-cbar = plt.colorbar(plot,aspect=20); plt.set_cmap('gist_earth'); 
-cbar.set_label('Reflectance',rotation=90,labelpad=20); 
-ax2.ticklabel_format(useOffset=False, style='plain') #do not use scientific notation 
+plot = plt.imshow(serc_b56_subset,extent=clipExt,clim=(0,0.1));
+plt.title('SERC Subset Band 56');
+cbar = plt.colorbar(plot,aspect=20); plt.set_cmap('gist_earth');
+cbar.set_label('Reflectance',rotation=90,labelpad=20);
+ax2.ticklabel_format(useOffset=False, style='plain') #do not use scientific notation
 rotatexlabels = plt.setp(ax2.get_xticklabels(),rotation=90) #rotate x tick labels 90 degrees
 
 ax2.plot(clipExtent['xMin']+300,clipExtent['yMin']+350,'s',markersize=5,color='red')
@@ -526,8 +526,8 @@ refl_band = serc_b56_subset
 
 w = copy.copy(wavelengths.value)
 w[((w >= 1340) & (w <= 1445)) | ((w >= 1790) & (w <= 1955))]=np.nan
-#use band window values from reflectance attributes 
-# w[((w >= bw1[0]) & (w <= bw1[1])) | ((w >= bw2[0]) & (w <= bw2[1]))]=np.nan 
+#use band window values from reflectance attributes
+# w[((w >= bw1[0]) & (w <= bw1[1])) | ((w >= bw2[0]) & (w <= bw2[1]))]=np.nan
 w[-10:]=np.nan;  # the last 10 bands sometimes have noise - best to eliminate
 nan_ind = np.argwhere(np.isnan(w))
 # print(nan_ind.shape)
@@ -540,7 +540,7 @@ print(refl.shape)
 ```
 
     (600, 700, 426)
-    
+
 
 
 ```python
@@ -550,7 +550,7 @@ def spectraPlot(pixel_x,pixel_y):
 
     reflectance = refl[pixel_y,pixel_x,:]
     reflectance[nan_ind]=np.nan
-    
+
     pixel_df = pd.DataFrame()
     pixel_df['reflectance'] = reflectance
     pixel_df['wavelengths'] = w
@@ -561,23 +561,23 @@ def spectraPlot(pixel_x,pixel_y):
     # fig, axes = plt.subplots(nrows=1, ncols=2)
     pixel_df.plot(ax=ax1,x='wavelengths',y='reflectance',kind='scatter',edgecolor='none');
     ax1.set_title('Spectra of Pixel (' + str(pixel_x) + ',' + str(pixel_y) + ')')
-    ax1.set_xlim([np.min(wavelengths),np.max(wavelengths)]); 
+    ax1.set_xlim([np.min(wavelengths),np.max(wavelengths)]);
     ax1.set_ylim([np.min(pixel_df['reflectance']),np.max(pixel_df['reflectance']*1.1)])
     ax1.set_xlabel("Wavelength, nm"); ax.set_ylabel("Reflectance")
     ax1.grid('on')
 
     ax2 = fig.add_subplot(1,2,2)
-    plot = plt.imshow(refl_band,extent=clipExt,clim=(0,0.1)); 
-    plt.title('Pixel Location'); 
-    cbar = plt.colorbar(plot,aspect=20); plt.set_cmap('gist_earth'); 
-    cbar.set_label('Reflectance',rotation=90,labelpad=20); 
-    ax2.ticklabel_format(useOffset=False, style='plain') #do not use scientific notation 
+    plot = plt.imshow(refl_band,extent=clipExt,clim=(0,0.1));
+    plt.title('Pixel Location');
+    cbar = plt.colorbar(plot,aspect=20); plt.set_cmap('gist_earth');
+    cbar.set_label('Reflectance',rotation=90,labelpad=20);
+    ax2.ticklabel_format(useOffset=False, style='plain') #do not use scientific notation
     rotatexlabels = plt.setp(ax2.get_xticklabels(),rotation=90) #rotate x tick labels 90 degrees
-    
+
     ax2.plot(clipExtent['xMin']+pixel_x,clipExtent['yMax']-pixel_y,'s',markersize=5,color='red')
     ax2.set_xlim(clipExt[0],clipExt[1])
     ax2.set_ylim(clipExt[2],clipExt[3])
-    
+
 interact(spectraPlot, pixel_x = (0,refl.shape[1]-1,1),pixel_y=(0,refl.shape[0]-1,1))
 ```
 
@@ -592,8 +592,8 @@ interact(spectraPlot, pixel_x = (0,refl.shape[1]-1,1),pixel_y=(0,refl.shape[0]-1
 
 **Challenge: Calculate Mean Spectra Over A Subset of Pixels**
 
-Now try it on a different area. Move around the pixel to different parts of the 
-reflectance image. Look at the spectra of water, trees, grass, and concrete. 
+Now try it on a different area. Move around the pixel to different parts of the
+reflectance image. Look at the spectra of water, trees, grass, and concrete.
 What general patterns can you see?
 
 
@@ -651,20 +651,20 @@ reflGrassClip = subset_clean_refl(sercRefl,sercRefl_md,clipGrassIndex)
 def plot_polygon(clipExtDict,ax=ax,color='white',annotation='off'):
     from matplotlib.path import Path
     import matplotlib.patches as patches
-    
+
     verts = [
         (clipExtDict['xMin'],clipExtDict['yMin']), #lower left
         (clipExtDict['xMin'],clipExtDict['yMax']), #upper left
         (clipExtDict['xMax'],clipExtDict['yMax']), #upper right
         (clipExtDict['xMax'],clipExtDict['yMin']), #lower right
         (clipExtDict['xMin'],clipExtDict['yMin'])] #lower left - close polygon
-    
+
     codes = [Path.MOVETO,
             Path.LINETO,
             Path.LINETO,
             Path.LINETO,
             Path.CLOSEPOLY]
-    
+
     path = Path(verts,codes)
     patch = patches.PathPatch(path,edgecolor=color,facecolor='none',lw=2)
     ax.add_patch(patch)
@@ -710,11 +710,11 @@ ax1.set_title('Mean Spectra of Clipped Regions')
 
 #Plot Polygons of Clipped Regions on Map
 ax2 = fig.add_subplot(1,2,2); plt.hold(True)
-plot = plt.imshow(serc_b56_subset,extent=clipExt,clim=(0,0.1)); 
+plot = plt.imshow(serc_b56_subset,extent=clipExt,clim=(0,0.1));
 plt.title('SERC Subset Band 56 \n Locations of Clipped Regions'); plt.grid('on')
-cbar = plt.colorbar(plot,aspect=20); plt.set_cmap('gist_earth'); 
-cbar.set_label('Reflectance',rotation=90,labelpad=20); 
-ax2.ticklabel_format(useOffset=False, style='plain') #do not use scientific notation 
+cbar = plt.colorbar(plot,aspect=20); plt.set_cmap('gist_earth');
+cbar.set_label('Reflectance',rotation=90,labelpad=20);
+ax2.ticklabel_format(useOffset=False, style='plain') #do not use scientific notation
 rotatexlabels = plt.setp(ax2.get_xticklabels(),rotation=90) #rotate x tick labels 90 degrees
 plt.hold('on'); plt.grid('on')
 
@@ -738,7 +738,7 @@ ax2.set_ylim(clipExt[2],clipExt[3])
 
 Elowitz, Mark R. "What is Imaging Spectroscopy (Hyperspectral Imaging)?" http://www.markelowitz.com/Hyperspectral.html
 
-Molero, José M., Garzón, Ester M. Inmaculada García and Antonio Plaza "Anomaly detection based on a parallel kernel RX algorithm for multicore platforms", J. Appl. Remote Sens. 6(1), 061503 (May 10, 2012). ; http://dx.doi.org/10.1117/1.JRS.6.061503. 
+Molero, José M., Garzón, Ester M. Inmaculada García and Antonio Plaza "Anomaly detection based on a parallel kernel RX algorithm for multicore platforms", J. Appl. Remote Sens. 6(1), 061503 (May 10, 2012). ; http://dx.doi.org/10.1117/1.JRS.6.061503.
 
 ## Challenge Code Solutions
 
@@ -774,17 +774,17 @@ serc_pixel_df.plot(ax=ax1,x='wavelengths',y='refl_tree',color='darkgreen',edgeco
 serc_pixel_df.plot(ax=ax1,x='wavelengths',y='refl_pavement',color='gray',edgecolor='none',kind='scatter',label='pavement',legend=True);
 
 ax1.set_title('Spectra of Pixel ' + str(pixel))
-ax1.set_xlim([np.min(wavelengths),np.max(wavelengths)]); 
+ax1.set_xlim([np.min(wavelengths),np.max(wavelengths)]);
 ax1.set_ylim([np.min(serc_pixel_df['refl_grass']),np.max(serc_pixel_df['refl_grass'])*1.2])
 ax1.set_xlabel("Wavelength, nm"); ax1.set_ylabel("Reflectance")
-ax1.grid('on'); 
+ax1.grid('on');
 
 ax2 = fig.add_subplot(1,2,2)
-plot = plt.imshow(serc_b56_subset,extent=clipExt,clim=(0,0.1)); 
+plot = plt.imshow(serc_b56_subset,extent=clipExt,clim=(0,0.1));
 plt.title('SERC Subset Band 56'); plt.grid('on')
-cbar = plt.colorbar(plot,aspect=20); plt.set_cmap('gist_earth'); 
-cbar.set_label('Reflectance',rotation=90,labelpad=20); 
-ax2.ticklabel_format(useOffset=False, style='plain') #do not use scientific notation 
+cbar = plt.colorbar(plot,aspect=20); plt.set_cmap('gist_earth');
+cbar.set_label('Reflectance',rotation=90,labelpad=20);
+ax2.ticklabel_format(useOffset=False, style='plain') #do not use scientific notation
 rotatexlabels = plt.setp(ax2.get_xticklabels(),rotation=90) #rotate x tick labels 90 degrees
 
 ax2.plot(clipExtent['xMin']+100,clipExtent['yMax']-350,'*',markersize=15,color='cyan') #water

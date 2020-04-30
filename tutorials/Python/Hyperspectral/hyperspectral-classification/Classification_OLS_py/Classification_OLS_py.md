@@ -1,11 +1,11 @@
 ---
 syncID: 1f8217240c064ed1a67b9db20e9362f4
 title: "Classification of Hyperspectral Data with Ordinary Least Squares in Python"
-description: "Learn to classify spectral data using the Ordinary Least Squares method." 
-dateCreated: 2017-06-21 
+description: "Test - Learn to classify spectral data using the Ordinary Least Squares method."
+dateCreated: 2017-06-21
 authors: Paul Gader
-contributors: 
-estimatedTime: 
+contributors:
+estimatedTime:
 packagesLibraries: numpy, gdal, matplotlib, matplotlib.pyplot
 topics: hyperspectral-remote-sensing, HDF5, remote-sensing
 languagesTool: python
@@ -15,8 +15,8 @@ tutorialSeries: intro-hsi-py-series
 urlTitle: classification-ols-python
 ---
 
-In this tutorial, we will learn to classify spectral data using the 
-Ordinary Least Squares method. 
+In this tutorial, we will learn to classify spectral data using the
+Ordinary Least Squares method.
 
 
 <div id="ds-objectives" markdown="1">
@@ -24,14 +24,14 @@ Ordinary Least Squares method.
 ### Objectives
 After completing this tutorial, you will be able to:
 
-* Classify spectral remote sensing data using Ordinary Least Squares. 
+* Classify spectral remote sensing data using Ordinary Least Squares.
 
 ### Install Python Packages
 
 * **numpy**
-* **gdal** 
-* **matplotlib** 
-* **matplotlib.pyplot** 
+* **gdal**
+* **matplotlib**
+* **matplotlib.pyplot**
 
 
 ### Download Data
@@ -42,7 +42,7 @@ Download the spectral classification teaching data subset</a>
 ### Additional Materials
 
 This tutorial was prepared in conjunction with a presentation on spectral classification
-that can be downloaded. 
+that can be downloaded.
 
 <a href="https://ndownloader.figshare.com/files/8730613" class="btn btn-success">
 Download Dr. Paul Gader's Classification 1 PPT</a>
@@ -55,7 +55,7 @@ Download Dr. Paul Gader's Classification 3 PPT</a>
 
 </div>
 
-Classification with Ordinary Least Squares solves the 2-class least squares problem. 
+Classification with Ordinary Least Squares solves the 2-class least squares problem.
 
 
 ```python
@@ -67,7 +67,7 @@ from scipy import io
 
 ```
 
-Let's load the data. 
+Let's load the data.
 
 
 ```python
@@ -83,19 +83,19 @@ NSampsClass    = 200
 NSamps         = 2*NSampsClass
 
 if LoadClasses:
-    
+
     ### GET FILENAMES %%%
     ### THESE ARE THE OPTIONS ###
     ### LinSepC1, LinSepC2,LinSepC2Outlier (Still Linearly Separable) ###
     ### NonLinSepC1, NonLinSepC2, NonLinSepC22 ###
-    
+
     InFile1          = 'NonLinSepC1.mat'
     InFile2          = 'NonLinSepC22.mat'
     C1Dict           = io.loadmat(InFile1)
     C2Dict           = io.loadmat(InFile2)
     C1               = C1Dict['NonLinSepC1']
     C2               = C2Dict['NonLinSepC22']
-    
+
     if TrainOutliers:
         ### Let's Make Some Noise ###
         Out1        = 2*np.random.rand(NOut,2)-0.5
@@ -243,7 +243,7 @@ matplotlib.pyplot.show()
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/classification_OLS/output_7_0.png)
 
 
-First, let's save this project with the name: OLSandRidgeRegress2DYourName. 
+First, let's save this project with the name: OLSandRidgeRegress2DYourName.
 Take a new project for spectra.
 
 
@@ -289,11 +289,11 @@ print(Corr1r + Corr2r, 'Correctly Classified for a ', round(100*CorrClassRater),
 ```
 
     Result for Ordinary Least Squares
-    373 Correctly Classified for a  93.0 % Correct Classification 
-    
+    373 Correctly Classified for a  93.0 % Correct Classification
+
     Result for Ridge Regression
-    373 Correctly Classified for a  93.0 % Correct Classification 
-    
+    373 Correctly Classified for a  93.0 % Correct Classification
+
 
 
 
@@ -317,14 +317,14 @@ Cm           = np.round(100*Cm)
 print('Confusion Matrix for Ridge Regression \n', Cm, '\n')
 ```
 
-    Confusion Matrix for OLS Regression 
+    Confusion Matrix for OLS Regression
      [[ 93.   7.]
-     [  6.  94.]] 
-    
-    Confusion Matrix for Ridge Regression 
+     [  6.  94.]]
+
+    Confusion Matrix for Ridge Regression
      [[ 93.   7.]
-     [  6.  94.]] 
-    
+     [  6.  94.]]
+
 
  <div id="ds-challenge" markdown="1">
 

@@ -1,11 +1,11 @@
 ---
 syncID: 1497c1da6ed64a7591e56ff1f2fce18d
 title: "Classification of Hyperspectral Data with Support Vector Machine (SVM) Using SciKit in Python"
-description: "Learn to classify spectral data using the Support Vector Machine (SVM) method." 
-dateCreated: 2017-06-19 
+description: "Test - Learn to classify spectral data using the Support Vector Machine (SVM) method."
+dateCreated: 2017-06-19
 authors: Paul Gader
-contributors: 
-estimatedTime: 
+contributors:
+estimatedTime:
 packagesLibraries: numpy, gdal, matplotlib, matplotlib.pyplot
 topics: hyperspectral-remote-sensing, HDF5, remote-sensing
 languagesTool: python
@@ -15,8 +15,8 @@ tutorialSeries: intro-hsi-py-series
 urlTitle: classification-scikit-svm-python
 ---
 
-In this tutorial, we will learn to classify spectral data using the Support 
-Vector Machine (SVM) method. 
+In this tutorial, we will learn to classify spectral data using the Support
+Vector Machine (SVM) method.
 
 
 <div id="ds-objectives" markdown="1">
@@ -24,14 +24,14 @@ Vector Machine (SVM) method.
 ### Objectives
 After completing this tutorial, you will be able to:
 
-* Classify spectral remote sensing data using Support Vector Machine (SVM). 
+* Classify spectral remote sensing data using Support Vector Machine (SVM).
 
 ### Install Python Packages
 
 * **numpy**
-* **gdal** 
-* **matplotlib** 
-* **matplotlib.pyplot** 
+* **gdal**
+* **matplotlib**
+* **matplotlib.pyplot**
 
 
 ### Download Data
@@ -42,7 +42,7 @@ Download the spectral classification teaching data subset</a>
 ### Additional Materials
 
 This tutorial was prepared in conjunction with a presentation on spectral classification
-that can be downloaded. 
+that can be downloaded.
 
 <a href="https://ndownloader.figshare.com/files/8730613" class="btn btn-success">
 Download Dr. Paul Gader's Classification 1 PPT</a>
@@ -199,7 +199,7 @@ w0
 
 ## Kernels
 
-Now well use support vector models (SVM) for classification. 
+Now well use support vector models (SVM) for classification.
 
 
 ```python
@@ -441,9 +441,9 @@ Yeah, too good to be true...What can we do?
 
 ## Error Analysis
 
-Error analysis can be used to identify characteristics of errors. 
+Error analysis can be used to identify characteristics of errors.
 
 You could try different Magic Numbers using Cross Validation, etc.  Stay tuned
-for a tutorial on this topic. 
+for a tutorial on this topic.
 
 

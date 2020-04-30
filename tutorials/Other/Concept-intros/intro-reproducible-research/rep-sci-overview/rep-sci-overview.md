@@ -1,7 +1,7 @@
 ---
-syncID: 6e908b9477034bc9b4a23b37c16a2455 
+syncID: 6e908b9477034bc9b4a23b37c16a2455
 title: "The Importance of Reproducible Science"
-description: "This page outlines the tools and resources that you will need to complete the Data Institute activities."
+description: "Test - This page outlines the tools and resources that you will need to complete the Data Institute activities."
 dateCreated: 2014-05-06
 authors:
 contributors:
@@ -9,7 +9,7 @@ estimatedTime: 1.0 Hour
 packagesLibraries:
 topics: data-management, rep-sci
 languageTools:
-dataProduct: 
+dataProduct:
 code1:
 tutorialSeries:
 urlTitle: rep-sci-intro
@@ -90,5 +90,5 @@ sections for sharing code.
 * Recent open-access issue of
 <a href="http://onlinelibrary.wiley.com/doi/10.1111/ecog.2016.v39.i4/issuetoc" target="_blank">Ecography </a>
  focusing on reproducible ecology and software packages available for use.
-* A nice short blog post with an annotated bibliography of "Top 10 papers discussing reproducible research in computational science" from Lorena Barba: 
+* A nice short blog post with an annotated bibliography of "Top 10 papers discussing reproducible research in computational science" from Lorena Barba:
 <a href="https://hackernoon.com/barba-group-reproducibility-syllabus-e3757ee635cf#.dqvocwxyz" target="_blank"> Barba group reproducibility syllabus</a>.

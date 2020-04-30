@@ -1,7 +1,7 @@
 ---
 syncID: 40146c0d0d3b43d0a2dc1f14f6c36ade
 title: "Create HDF5 Files in R Using Loops"
-description: "Create a HDF5 in R from scratch! Add groups and datasets. View the files with HDFView."
+description: "Test - Create a HDF5 in R from scratch! Add groups and datasets. View the files with HDFView."
 dateCreated: 2014-11-18
 authors: Ted Hart, Leah Wasser, Adapted From Software Carpentry
 contributors: [Elizabeth Webb]
@@ -21,22 +21,22 @@ urlTitle: create-hdf5-loops-r
 After completing this tutorial, you will be able to:
 
 * Understand how HDF5 files can be created and structured in R using the rhfd libraries. </li>
-* Understand the three key HDF5 elements: 
+* Understand the three key HDF5 elements:
 		* the HDF5 file itself,
-		* groups,and 
+		* groups,and
 		* datasets.
 
 ## Things You’ll Need To Complete This Tutorial
-To complete this tutorial you will need the most current version of R and, 
+To complete this tutorial you will need the most current version of R and,
 preferably, RStudio loaded on your computer.
 
 ### R Libraries to Install:
 
-* **rhdf5** 
+* **rhdf5**
 
 <a href="https://www.neonscience.org/packages-in-r" target="_blank"> More on Packages in R </a>– Adapted from Software Carpentry.
 
-## Recommended Background 
+## Recommended Background
 
 Consider reviewing the documentation for the <a href="http://www.bioconductor.org/packages/release/bioc/manuals/rhdf5/man/rhdf5.pdf" target="_blank">RHDF5 package</a>.
 
@@ -44,45 +44,45 @@ Consider reviewing the documentation for the <a href="http://www.bioconductor.or
 
 ### A Brief Review - About HDF5
 
-The HDF5 file can store large, heterogeneous datasets that include metadata. It 
-also supports efficient `data slicing`, or extraction of particular subsets of a 
-dataset which means that you don't have to read  large files read into the computers 
+The HDF5 file can store large, heterogeneous datasets that include metadata. It
+also supports efficient `data slicing`, or extraction of particular subsets of a
+dataset which means that you don't have to read  large files read into the computers
 memory/RAM in their entirety in order work with them. This saves a lot of time
- when working with with HDF5 data in R. When HDF5 files contain spatial data, 
-they can also be read directly into GIS programs such as `QGiS`.  
+ when working with with HDF5 data in R. When HDF5 files contain spatial data,
+they can also be read directly into GIS programs such as `QGiS`.
 
-The HDF5 format is a self-contained directory structure. We can compare this 
-structure to the folders and files located on your computer. However, in HDF5 
-files  "directories" are called `groups` and files are called `datasets`. The 
-HDF5 element itself is a file. Each element in an HDF5 file can have metadata 
+The HDF5 format is a self-contained directory structure. We can compare this
+structure to the folders and files located on your computer. However, in HDF5
+files  "directories" are called `groups` and files are called `datasets`. The
+HDF5 element itself is a file. Each element in an HDF5 file can have metadata
 attached to it making HDF5 files "self-describing".
 
 <a href="https://www.neonscience.org/about-hdf5" target="_blank"> Read more about HDF5 here. </a>
 
 ## HDF5 in R
 
-To access HDF5 files in R, you need base 
-<a href="http://www.hdfgroup.org/HDF5/release/obtain5.html#obtain" target="_blank">HDF5 libraries</a> 
-installed on your computer. 
-It might also be useful to install 
+To access HDF5 files in R, you need base
+<a href="http://www.hdfgroup.org/HDF5/release/obtain5.html#obtain" target="_blank">HDF5 libraries</a>
+installed on your computer.
+It might also be useful to install
 <a href="http://www.hdfgroup.org/products/java/hdfview/" target="_blank">the free HDF5 viewer</a>
-which will allow you to explore the contents of an HDF5 file visually using a 
+which will allow you to explore the contents of an HDF5 file visually using a
 graphic interface. <a href="site.basurl/explore-data-hdfview " target="_blank">More about working with HDFview and a hands-on activity here.</a>
 
-The package we'll be using is `rhdf5` which is part of the 
+The package we'll be using is `rhdf5` which is part of the
 <a href="http://www.bioconductor.org" target="_blank">Bioconductor</a> suite of
- R packages. If you haven't installed this package before, you can use the first 
-two lines of code below to install the package. Then use the library command to 
+ R packages. If you haven't installed this package before, you can use the first
+two lines of code below to install the package. Then use the library command to
 call the `library("rhdf5")` library.
 
 
     # Install rhdf5 package (only need to run if not already installed)
     #install.packages("BiocManager")
     #BiocManager::install("rhdf5")
-    
+
     # Call the R HDF5 Library
     library("rhdf5")
-    
+
     # set working directory to ensure R can find the file we wish to import and where
     # we want to save our files
     #setwd("working-dir-path-here")
@@ -91,15 +91,15 @@ call the `library("rhdf5")` library.
 
 ## Create an HDF5 File in R
 
-Let's start by outlining the structure of the file that we want to create. 
-We'll build a file called "sensorData.h5", that will hold data for a set of 
-sensors at three different locations. Each sensor takes three replicates of two 
-different measurements, every minute. 
+Let's start by outlining the structure of the file that we want to create.
+We'll build a file called "sensorData.h5", that will hold data for a set of
+sensors at three different locations. Each sensor takes three replicates of two
+different measurements, every minute.
 
-HDF5 allows us to organize and store data in many ways. Therefore we need to decide 
-what type of structure is ideally suited to our data before creating the HDF5 file. 
-To structure the HDF5 file, we'll start at the file level. We will create a group 
-for each sensor location. Within each location group, we will create two datasets 
+HDF5 allows us to organize and store data in many ways. Therefore we need to decide
+what type of structure is ideally suited to our data before creating the HDF5 file.
+To structure the HDF5 file, we'll start at the file level. We will create a group
+for each sensor location. Within each location group, we will create two datasets
 containing temperature and precipitation data collected through time at each location.
 
 So it will look something like this:
@@ -114,9 +114,9 @@ So it will look something like this:
 	- Location_Three  (Group)
 		- Temperature (Dataset)
 		- Precipitation (Dataset)
-   
-Let's first create the HDF5 file and call it "sensorData.h5". Next, we will add 
-a group for each location to the file. 
+
+Let's first create the HDF5 file and call it "sensorData.h5". Next, we will add
+a group for each location to the file.
 
 
     # create hdf5 file
@@ -133,12 +133,12 @@ a group for each location to the file.
 
     ## [1] FALSE
 
-The output is `TRUE` when the code properly runs. 
+The output is `TRUE` when the code properly runs.
 
-Remember from the discussion above that we want to create three location groups. The 
-process of creating nested groups can be simplified with loops and nested loops. 
-While the for loop below might seem excessive for adding three groups, it will 
-become increasingly more efficient as we need to add more groups to our file. 
+Remember from the discussion above that we want to create three location groups. The
+process of creating nested groups can be simplified with loops and nested loops.
+While the for loop below might seem excessive for adding three groups, it will
+become increasingly more efficient as we need to add more groups to our file.
 
 
     # Create loops that will populate 2 additional location "groups" in our HDF5 file
@@ -158,28 +158,28 @@ Now let's view the structure of our HDF5 file. We'll use the `h5ls()` function t
     h5ls("sensorData.h5")
 
     ##        group      name       otype dclass     dim
-    ## 0          / location1   H5I_GROUP               
+    ## 0          / location1   H5I_GROUP
     ## 1 /location1    precip H5I_DATASET  FLOAT 100 x 3
     ## 2 /location1      temp H5I_DATASET  FLOAT 100 x 3
-    ## 3          / location2   H5I_GROUP               
+    ## 3          / location2   H5I_GROUP
     ## 4 /location2    precip H5I_DATASET  FLOAT 100 x 3
     ## 5 /location2      temp H5I_DATASET  FLOAT 100 x 3
-    ## 6          / location3   H5I_GROUP               
+    ## 6          / location3   H5I_GROUP
     ## 7 /location3    precip H5I_DATASET  FLOAT 100 x 3
     ## 8 /location3      temp H5I_DATASET  FLOAT 100 x 3
 
-Our group structure that will contain location information is now set-up. However, 
+Our group structure that will contain location information is now set-up. However,
 it doesn't contain any data. Let's simulate some data pretending that each sensor
- took replicate measurements for 100 minutes. We'll add a 100 x 3 matrix that will 
-be stored as a **dataset** in our HDF5 file. We'll populate this dataset with 
-simulated data for each of our groups. We'll use loops to create these matrices 
+ took replicate measurements for 100 minutes. We'll add a 100 x 3 matrix that will
+be stored as a **dataset** in our HDF5 file. We'll populate this dataset with
+simulated data for each of our groups. We'll use loops to create these matrices
 and then paste them into each location group within the HDF5 file as datasets.
 
 
     # Add datasets to each group
     for(i in 1:3){
           g <- paste("location",i,sep="")
-          
+
           # populate matrix with dummy data
           # create precip dataset within each location group
           h5write(
@@ -187,7 +187,7 @@ and then paste them into each location group within the HDF5 file as datasets.
           				 ncol=3,nrow=100),
     			file = "sensorData.h5",
     			paste(g,"precip",sep="/"))
-          
+
           #create temperature dataset within each location group
           h5write(
           	matrix(rnorm(300,25,5),
@@ -196,25 +196,25 @@ and then paste them into each location group within the HDF5 file as datasets.
     			paste(g,"temp",sep="/"))
     	}
 
-### Understandig Complex Code 
+### Understandig Complex Code
 
-Sometimes you may run into code (like the above code) that combines multiple 
-functions. It can be helpful to break the pieces of the code apart to understand 
-their overall function. 
+Sometimes you may run into code (like the above code) that combines multiple
+functions. It can be helpful to break the pieces of the code apart to understand
+their overall function.
 
 Looking at the first `h5write()` chunck above, let's figure out what it is doing.
-We can see easily that part of it is telling R to create a matrix (`matrix()`) 
-that has 3 columns (`ncol=3`) and 100 rows (`nrow=100`). That is fairly straight 
-forward, but what about the rest? 
+We can see easily that part of it is telling R to create a matrix (`matrix()`)
+that has 3 columns (`ncol=3`) and 100 rows (`nrow=100`). That is fairly straight
+forward, but what about the rest?
 
 Do the following to figure out what it's doing.
 
 1. Type `paste(g,"precip",sep="/")` into the R console. What is the result?
-2. Type `rnorm(300,2,1)` into the console and see the result. 
+2. Type `rnorm(300,2,1)` into the console and see the result.
 3. Type `g` into the console and take note of the result.
-4. Type `help(norm)` to understand what norm does. 
+4. Type `help(norm)` to understand what norm does.
 
-And the output: 
+And the output:
 
 
     # 1
@@ -284,28 +284,28 @@ And the output:
     # 4
     help(norm)
 
-The `rnorm` function creates a set of random numbers that fall into a normal 
-distribution. You specify the mean and standard deviation of the dataset and R 
-does the rest. Notice in this loop we are creating a "precip" and a "temp" dataset 
+The `rnorm` function creates a set of random numbers that fall into a normal
+distribution. You specify the mean and standard deviation of the dataset and R
+does the rest. Notice in this loop we are creating a "precip" and a "temp" dataset
 and pasting them into each location group (the loop iterates 3 times).
 
-The `h5write` function is writing each matrix to a dataset in our HDF5 file 
-(sensorData.h5). It is looking for the following arguments: `hrwrite(dataset,YourHdfFileName,LocationOfDatasetInH5File)`. Therefore, the code: 
-`(matrix(rnorm(300,2,1),ncol=3,nrow=100),file = "sensorData.h5",paste(g,"precip",sep="/"))` 
-tells R to add a random matrix of values to the sensorData HDF5 file within the 
-path called `g`. It also tells R to call the dataset within that group, "precip". 
+The `h5write` function is writing each matrix to a dataset in our HDF5 file
+(sensorData.h5). It is looking for the following arguments: `hrwrite(dataset,YourHdfFileName,LocationOfDatasetInH5File)`. Therefore, the code:
+`(matrix(rnorm(300,2,1),ncol=3,nrow=100),file = "sensorData.h5",paste(g,"precip",sep="/"))`
+tells R to add a random matrix of values to the sensorData HDF5 file within the
+path called `g`. It also tells R to call the dataset within that group, "precip".
 
 ### HDF5 File Structure
-Next, let's check the file structure of the sensorData.h5 file. The `h5ls()` 
-command tells us what each element in the file is, group or dataset. It also 
-identifies the dimensions and types of data stored within the datasets in the 
-HDF5 file. In this case, the  precipitation and temperature datasets are of type 
+Next, let's check the file structure of the sensorData.h5 file. The `h5ls()`
+command tells us what each element in the file is, group or dataset. It also
+identifies the dimensions and types of data stored within the datasets in the
+HDF5 file. In this case, the  precipitation and temperature datasets are of type
 'float' and of dimensions 100 x 3 (100 rows by 3 columns).
 
 
 <div id="ds-dataTip" markdown="1">
-<i class="fa fa-star"></i> **Data Tip:** It's useful to learn about the different 
-types of data that can be stored within R (and other objects). 
+<i class="fa fa-star"></i> **Data Tip:** It's useful to learn about the different
+types of data that can be stored within R (and other objects).
 <a href="http://www.burns-stat.com/documents/tutorials/impatient-r/more-r-key-objects/more-r-numbers/#twonum" target="_blank">Learn more about float vs integer data here</a>
 </div>
 
@@ -314,31 +314,31 @@ types of data that can be stored within R (and other objects).
     	h5ls("sensorData.h5")
 
     ##        group      name       otype dclass     dim
-    ## 0          / location1   H5I_GROUP               
+    ## 0          / location1   H5I_GROUP
     ## 1 /location1    precip H5I_DATASET  FLOAT 100 x 3
     ## 2 /location1      temp H5I_DATASET  FLOAT 100 x 3
-    ## 3          / location2   H5I_GROUP               
+    ## 3          / location2   H5I_GROUP
     ## 4 /location2    precip H5I_DATASET  FLOAT 100 x 3
     ## 5 /location2      temp H5I_DATASET  FLOAT 100 x 3
-    ## 6          / location3   H5I_GROUP               
+    ## 6          / location3   H5I_GROUP
     ## 7 /location3    precip H5I_DATASET  FLOAT 100 x 3
     ## 8 /location3      temp H5I_DATASET  FLOAT 100 x 3
 
 ### Data Types within HDF5
 
-HDF5 files can hold mixed types of data. For example HDF5 files can store both 
-strings and numbers in the same file. Each dataset in an HDF5 file can be its 
-own type. For example a dataset can be composed of all integer values or it 
-could be composed of all strings (characters). A group can contain a mix of string, 
-and number based datasets.  However a dataset can also be mixed within the dataset 
-containing a combination of numbers and strings. 
+HDF5 files can hold mixed types of data. For example HDF5 files can store both
+strings and numbers in the same file. Each dataset in an HDF5 file can be its
+own type. For example a dataset can be composed of all integer values or it
+could be composed of all strings (characters). A group can contain a mix of string,
+and number based datasets.  However a dataset can also be mixed within the dataset
+containing a combination of numbers and strings.
 
 ## Add Metdata to HDF5 Files
 
-Some metadata can be added to an HDF5 file in R by creating attributes in R 
-objects before adding them to the HDF5 file. Let's look at an example of how we 
-do this. We'll add the units of our data as an attribute of the R matrix before 
-adding it to the HDF5 file. Note that `write.attributes = TRUE` is needed when 
+Some metadata can be added to an HDF5 file in R by creating attributes in R
+objects before adding them to the HDF5 file. Let's look at an example of how we
+do this. We'll add the units of our data as an attribute of the R matrix before
+adding it to the HDF5 file. Note that `write.attributes = TRUE` is needed when
 you write to the HDF5 file, in order to add metadata to the dataset.
 
 
@@ -346,54 +346,54 @@ you write to the HDF5 file, in order to add metadata to the dataset.
     p1 <- matrix(rnorm(300,2,1),ncol=3,nrow=100)
     # Add attribute to the matrix (units)
     attr(p1,"units") <- "millimeters"
-    
-    # Write the R matrix to the HDF5 file 
+
+    # Write the R matrix to the HDF5 file
     h5write(p1,file = "sensorData.h5","location1/precip",write.attributes=T)
-    
+
     # Close the HDF5 file
     H5close()
 
-We close the file at the end once we are done with it. Otherwise, next time you 
-open a HDF5 file, you will get a warning message similar to: 
+We close the file at the end once we are done with it. Otherwise, next time you
+open a HDF5 file, you will get a warning message similar to:
 
 `Warning message:
 In h5checktypeOrOpenLoc(file, readonly = TRUE) :
-  An open HDF5 file handle exists. If the file has changed on disk meanwhile, the function may not work properly. Run 'H5close()' to close all open HDF5 object handles.` 
+  An open HDF5 file handle exists. If the file has changed on disk meanwhile, the function may not work properly. Run 'H5close()' to close all open HDF5 object handles.`
 
 ## Reading Data from an HDF5 File
 
-We just learned how to create an HDF5 file and write information to the file. 
-We use a different set of functions to read data from an HDF5 file. If 
-`read.attributes` is set to `TRUE` when we read the data, then we can also see 
-the metadata for the matrix. Furthermore, we can chose to read in a subset, 
+We just learned how to create an HDF5 file and write information to the file.
+We use a different set of functions to read data from an HDF5 file. If
+`read.attributes` is set to `TRUE` when we read the data, then we can also see
+the metadata for the matrix. Furthermore, we can chose to read in a subset,
 like the first 10 rows of data, rather than loading the entire dataset into R.
 
 
-    # Read in all data contained in the precipitation dataset 
+    # Read in all data contained in the precipitation dataset
     l1p1 <- h5read("sensorData.h5","location1/precip",
     							 read.attributes=T)
-    
-    # Read in first 10 lines of the data contained within the precipitation dataset 
+
+    # Read in first 10 lines of the data contained within the precipitation dataset
     l1p1s <- h5read("sensorData.h5","location1/precip",
     								read.attributes = T,index = list(1:10,NULL))
 
-Now you are ready to go onto the other tutorials in the series to explore more 
-about HDF5 files. 
+Now you are ready to go onto the other tutorials in the series to explore more
+about HDF5 files.
 
 <div id="ds-challenge" markdown="1">
 ### Challenge: Your Own HDF5
 
-Think about an application for HDF5 that you might have. Create a new HDF5 file 
-that would support the data that you need to store. 
+Think about an application for HDF5 that you might have. Create a new HDF5 file
+that would support the data that you need to store.
 </div>
 
 <div id="ds-challenge" markdown="1">
 ### Challenge: View Data with HDFView
 Open the sensordata.H5 file in the HDFView application and explore the contents.
 
-Hint: You may be interested in these tutorials: 
+Hint: You may be interested in these tutorials:
 
-* <a href="https://www.neonscience.org/explore-data-hdfview" target="_blank"> HDFView: Exploring HDF5 Files in the Free HDFview Tool </a>. 
-* <a href="{{ site.baseurl }}setup-qgis-h5view#install-hdfview" target="_blank"> Install HDF5View </a>. 
+* <a href="https://www.neonscience.org/explore-data-hdfview" target="_blank"> HDFView: Exploring HDF5 Files in the Free HDFview Tool </a>.
+* <a href="{{ site.baseurl }}setup-qgis-h5view#install-hdfview" target="_blank"> Install HDF5View </a>.
 
 </div>

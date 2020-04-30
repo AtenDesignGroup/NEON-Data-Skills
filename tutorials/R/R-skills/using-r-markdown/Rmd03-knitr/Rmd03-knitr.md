@@ -1,7 +1,7 @@
 ---
 syncID: 341f22ea46904019a993e1fbc7a70937
 title: "Change Publish Code - From R Markdown to HTML with knitr"
-description: "This tutorial introduces how to use the R knitr package to publish from R Markdown files to HTML (or other) file format"
+description: "Test - This tutorial introduces how to use the R knitr package to publish from R Markdown files to HTML (or other) file format"
 dateCreated: 2016-01-01
 authors: Joel, Travis, Rob
 contributors: Travis, Joel

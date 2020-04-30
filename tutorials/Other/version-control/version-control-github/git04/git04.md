@@ -1,7 +1,7 @@
 ---
 syncID: e5c107fbf4a248588d5dbf7fbaffd49f
 title: "Git 04: Markdown Files"
-description: "This tutorial covers the basics of writing a document using the markdown language."
+description: "Test - This tutorial covers the basics of writing a document using the markdown language."
 dateCreated: 2016-05-06
 authors: Megan A. Jones
 contributors:
@@ -60,7 +60,7 @@ text in different ways.
 For example, if we want to highlight a function or some code within a plain text
 paragraph, we can use one backtick on each side of the text ( ` ` ), like this:
 `Here is some code`. This is the backtick, or grave; not an apostrophe (on most
-US keyboards it is on the same key as the tilde).  
+US keyboards it is on the same key as the tilde).
 
 To add emphasis to other text you can use **bold** or *italics*.
 
@@ -87,8 +87,8 @@ Below is the rule rendered:
 
 ## Section Headings
 
-You can create a heading using the pound (#) sign. For the headers to render 
-properly there must be a space between the # and the header text. 
+You can create a heading using the pound (#) sign. For the headers to render
+properly there must be a space between the # and the header text.
 Heading one is 1 pound sign, heading two is 2 pound signs, etc as follows:
 
 ## Heading two

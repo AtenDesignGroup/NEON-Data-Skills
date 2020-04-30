@@ -1,26 +1,26 @@
 ---
 syncID: d3f52facdd2e4ed9862a56f28217f5cb
 title: "Raster 03: Raster Calculations in R - Subtract One Raster from Another and Extract Pixel Values For Defined Locations"
-description: "This tutorial covers how to subtract one raster from another using efficient methods - the overlay function compared to basic subtraction. We also cover how to extract pixel values from a set of locations - for example a buffer region around plot locations at a field site. Finally, it explains the basic principles of writing functions in R."	
+description: "Test - This tutorial covers how to subtract one raster from another using efficient methods - the overlay function compared to basic subtraction. We also cover how to extract pixel values from a set of locations - for example a buffer region around plot locations at a field site. Finally, it explains the basic principles of writing functions in R."
 dateCreated: 2015-10-23
-authors: Leah A. Wasser, Megan A. Jones, Zack Brym, Kristina Riemer, Jason Williams, Jeff Hollister,  Mike Smorul	
-contributors:	
-estimatedTime:	
+authors: Leah A. Wasser, Megan A. Jones, Zack Brym, Kristina Riemer, Jason Williams, Jeff Hollister,  Mike Smorul
+contributors:
+estimatedTime:
 packagesLibraries: raster, rgdal
 topics: data-analysis, raster, spatial-data-gis
 languagesTool: R
 dataProduct:
-code1: /R/dc-spatial-raster/03-Raster-Calculations-In-R.R	
+code1: /R/dc-spatial-raster/03-Raster-Calculations-In-R.R
 tutorialSeries: raster-data-series
 urlTitle: dc-raster-calculations-r
 
 ---
 
-We often want to combine values of and perform calculations on rasters to create 
-a new output raster. This tutorial covers how to subtract one raster from 
-another using basic raster math and the `overlay()` function. It also covers how 
-to extract pixel values from a set of locations - for example a buffer region 
-around plot locations at a field site. 
+We often want to combine values of and perform calculations on rasters to create
+a new output raster. This tutorial covers how to subtract one raster from
+another using basic raster math and the `overlay()` function. It also covers how
+to extract pixel values from a set of locations - for example a buffer region
+around plot locations at a field site.
 
 
 <div id="ds-objectives" markdown="1">
@@ -29,9 +29,9 @@ around plot locations at a field site.
 
 After completing this tutorial, you will be able to:
 
-* Be able to to perform a subtraction (difference) between two rasters using 
+* Be able to to perform a subtraction (difference) between two rasters using
 raster math.
-* Know how to perform a more efficient subtraction (difference) between two 
+* Know how to perform a more efficient subtraction (difference) between two
 rasters using the raster `overlay()` function in R.
 
 ## Things You’ll Need To Complete This Tutorial
@@ -50,14 +50,14 @@ on your computer to complete this tutorial.
 
 <h3> <a href="https://ndownloader.figshare.com/files/3701578"> NEON Teaching Data Subset: Airborne Remote Sensing Data </a></h3>
 
-The LiDAR and imagery data used to create this raster teaching data subset 
-were collected over the 
-<a href="https://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a> 
+The LiDAR and imagery data used to create this raster teaching data subset
+were collected over the
+<a href="https://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a>
 <a href="https://www.neonscience.org/field-sites/field-sites-map/HARV" target="_blank" >Harvard Forest</a>
-and 
+and
 <a href="https://www.neonscience.org/field-sites/field-sites-map/SJER" target="_blank" >San Joaquin Experimental Range</a>
-field sites and processed at NEON headquarters. 
-The entire dataset can be accessed by request from the 
+field sites and processed at NEON headquarters.
+The entire dataset can be accessed by request from the
 <a href="http://data.neonscience.org" target="_blank"> NEON Data Portal</a>.
 
 <a href="https://ndownloader.figshare.com/files/3701578" class="link--button link--arrow"> Download Dataset</a>
@@ -74,13 +74,13 @@ The entire dataset can be accessed by request from the
 
 ****
 
-**Set Working Directory:** This lesson assumes that you have set your working 
-directory to the location of the downloaded and unzipped data subsets. 
+**Set Working Directory:** This lesson assumes that you have set your working
+directory to the location of the downloaded and unzipped data subsets.
 
 <a href="https://www.neonscience.org/set-working-directory-r" target="_blank"> An overview
 of setting the working directory in R can be found here.</a>
 
-**R Script & Challenge Code:** NEON data lessons often contain challenges that reinforce 
+**R Script & Challenge Code:** NEON data lessons often contain challenges that reinforce
 learned skills. If available, the code for challenge solutions is found in the
 downloadable R script of the entire lesson, available in the footer of each lesson page.
 
@@ -93,12 +93,12 @@ downloadable R script of the entire lesson, available in the footer of each less
 </div>
 
 ## Raster Calculations in R
-We often want to perform calculations on two or more rasters to create a new 
+We often want to perform calculations on two or more rasters to create a new
 output raster. For example, if we are interested in mapping the heights of trees
 across an entire field site, we might want to calculate the *difference* between
-the Digital Surface Model (DSM, tops of trees) and the 
-Digital Terrain Model (DTM, ground level). The resulting dataset is referred to 
-as a Canopy Height Model (CHM) and represents the actual height of trees, 
+the Digital Surface Model (DSM, tops of trees) and the
+Digital Terrain Model (DTM, ground level). The resulting dataset is referred to
+as a Canopy Height Model (CHM) and represents the actual height of trees,
 buildings, etc. with the influence of ground elevation removed.
 
 <figure>
@@ -109,13 +109,13 @@ buildings, etc. with the influence of ground elevation removed.
     </figcaption>
 </figure>
 
-* Check out more on LiDAR CHM, DTM and DSM in this NEON Data Skills overview tutorial: 
-<a href="https://www.neonscience.org/chm-dsm-dtm-gridded-lidar-data" target="_blank"> 
-*What is a CHM, DSM and DTM? About Gridded, Raster LiDAR Data*</a>. 
+* Check out more on LiDAR CHM, DTM and DSM in this NEON Data Skills overview tutorial:
+<a href="https://www.neonscience.org/chm-dsm-dtm-gridded-lidar-data" target="_blank">
+*What is a CHM, DSM and DTM? About Gridded, Raster LiDAR Data*</a>.
 
-### Load the Data 
+### Load the Data
 We will need the `raster` package to import and perform raster calculations. We
-will use the DTM (`NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop.tif`) 
+will use the DTM (`NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop.tif`)
 and DSM (`NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif`) from the
 NEON Harvard Forest Field site.
 
@@ -134,11 +134,11 @@ GDALinfo("NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
 
 As seen from the `geoTiff` tags, both rasters have:
 
-* the same CRS, 
-* the same resolution 
+* the same CRS,
+* the same resolution
 * defined minimum and maximum values.
 
-Let's load the data. 
+Let's load the data.
 
 ``` {r load-plot-data}
 # load the DTM & DSM rasters
@@ -173,12 +173,12 @@ Let's subtract the DTM from the DSM to create a Canopy Height Model.
 
 ```{r raster-math }
 # Raster math example
-CHM_HARV <- DSM_HARV - DTM_HARV 
+CHM_HARV <- DSM_HARV - DTM_HARV
 
 # plot the output CHM
 plot(CHM_HARV,
      main="Canopy Height Model - Raster Math Subtract\n NEON Harvard Forest Field Site",
-     axes=FALSE) 
+     axes=FALSE)
 
 ```
 
@@ -201,32 +201,32 @@ Does this make sense for trees in Harvard Forest?
 <div id="ds-challenge" markdown="1">
 ### Challenge: Explore CHM Raster Values
 It's often a good idea to explore the range of values in a raster dataset just
-like we might explore a dataset that we collected in the field.  
+like we might explore a dataset that we collected in the field.
 
-1. What is the min and maximum value for the Harvard Forest Canopy 
+1. What is the min and maximum value for the Harvard Forest Canopy
 Height Model (`CHM_HARV`) that we just created?
-2. What are two ways you can check this range of data in `CHM_HARV`? 
-3. What is the distribution of all the pixel values in the CHM? 
+2. What are two ways you can check this range of data in `CHM_HARV`?
+3. What is the distribution of all the pixel values in the CHM?
 4. Plot a histogram with 6 bins instead of the default and change the color of
-the histogram. 
+the histogram.
 5. Plot the `CHM_HARV` raster using breaks that make sense for the data. Include
-a appropriate color palette for the data, plot title and no axes ticks / labels. 
+a appropriate color palette for the data, plot title and no axes ticks / labels.
 
 </div>
 
-```{r challenge-code-CHM-HARV,  include=TRUE, results="hide", echo=FALSE} 
-# 1) 
+```{r challenge-code-CHM-HARV,  include=TRUE, results="hide", echo=FALSE}
+# 1)
 minValue(CHM_HARV)
 maxValue(CHM_HARV)
 # 2) Looks at histogram, minValue(NAME)/maxValue(NAME), NAME and look at values
-# slot. 
+# slot.
 # 3
-hist(CHM_HARV, 
+hist(CHM_HARV,
      col="springgreen4",
      main = "Histogram of Canopy Height Model\nNEON Harvard Forest Field Site",
      maxpixels=ncell(CHM_HARV))
-# 4 
-hist(CHM_HARV, 
+# 4
+hist(CHM_HARV,
      col="lightgreen",
      main = "Histogram of Canopy Height Model\nNEON Harvard Forest Field Site",
      maxpixels=ncell(CHM_HARV),
@@ -241,7 +241,7 @@ plot(CHM_HARV,
 
 ```
 
-## Overlay Function: Efficient Raster Calculations 
+## Overlay Function: Efficient Raster Calculations
 Raster math, like we just did, is an appropriate approach to raster calculations
 if:
 
@@ -249,12 +249,12 @@ if:
 2. The calculations we are performing are simple.
 
 However, raster math is a less efficient approach as computation becomes more
-complex or as file sizes become large. 
+complex or as file sizes become large.
 The `overlay()` function is more efficient when:
 
-1. The rasters we are using are larger in size. 
-2. The rasters are stored as individual files. 
-3. The computations performed are complex. 
+1. The rasters we are using are larger in size.
+2. The rasters are stored as individual files.
+3. The computations performed are complex.
 
 The `overlay()` function takes two or more rasters and applies a function to
 them using efficient processing methods. The syntax is
@@ -262,13 +262,13 @@ them using efficient processing methods. The syntax is
 `outputRaster <- overlay(raster1, raster2, fun=functionName)`
 
 <div id="ds-dataTip" markdown="1">
-<i class="fa fa-star"></i> **Data Tip:** If the rasters are stacked and stored 
-as `RasterStack` or `RasterBrick` objects in R, then we should use `calc()`. 
-`overlay()` will not work on stacked rasters. 
+<i class="fa fa-star"></i> **Data Tip:** If the rasters are stacked and stored
+as `RasterStack` or `RasterBrick` objects in R, then we should use `calc()`.
+`overlay()` will not work on stacked rasters.
 </div>
 
-Let's perform the same subtraction calculation that we calculated above using 
-raster math, using the `overlay()` function.  
+Let's perform the same subtraction calculation that we calculated above using
+raster math, using the `overlay()` function.
 
 ```{r raster-overlay }
 CHM_ov_HARV<- overlay(DSM_HARV,
@@ -280,11 +280,11 @@ plot(CHM_ov_HARV,
 ```
 
 How do the plots of the CHM created with manual raster math and the `overlay()`
-function compare?  
+function compare?
 
 <div id="ds-dataTip" markdown="1">
 <i class="fa fa-star"></i> **Data Tip:** A custom function consists of a defined
-set of commands performed on a input object. Custom functions are particularly 
+set of commands performed on a input object. Custom functions are particularly
 useful for tasks that need to be repeated over and over in the code. A
 simplified syntax for writing a custom function in R is:
 `functionName <- function(variable1, variable2){WhatYouWantDone, WhatToReturn}`
@@ -292,12 +292,12 @@ simplified syntax for writing a custom function in R is:
 
 ## Export a GeoTIFF
 Now that we've created a new raster, let's export the data as a `GeoTIFF` using
-the `writeRaster()` function. 
+the `writeRaster()` function.
 
-When we write this raster object to a `GeoTIFF` file we'll name it 
+When we write this raster object to a `GeoTIFF` file we'll name it
 `chm_HARV.tiff`. This name allows us to quickly remember both what the data
 contains (CHM data) and for where (HARVard Forest). The `writeRaster()` function
-by default writes the output file to your working directory unless you specify a 
+by default writes the output file to your working directory unless you specify a
 full file path.
 
 ```{r write-raster }
@@ -313,23 +313,23 @@ writeRaster(CHM_ov_HARV, "chm_HARV.tiff",
 ### writeRaster Options
 The function arguments that we used above include:
 
-* **format:** specify that the format will be `GTiff` or `GeoTiff`. 
+* **format:** specify that the format will be `GTiff` or `GeoTiff`.
 * **overwrite:** If TRUE, R will overwrite any existing file  with the same
 name in the specified directory. USE THIS SETTING WITH CAUTION!
 * **NAflag:** set the `geotiff` tag for `NoDataValue` to -9999, the National
-Ecological Observatory Network's (NEON) standard `NoDataValue`. 
+Ecological Observatory Network's (NEON) standard `NoDataValue`.
 
 <div id="ds-challenge" markdown="1">
 ### Challenge: Explore the NEON San Joaquin Experimental Range Field Site
 
-Data are often more interesting and powerful when we compare them across various 
+Data are often more interesting and powerful when we compare them across various
 locations. Let's compare some data collected over Harvard Forest to data
-collected in Southern California. The 
-<a href="https://www.neonscience.org/field-sites/field-sites-map/SJER" target="_blank" >NEON San Joaquin Experimental Range (SJER) field site </a> 
+collected in Southern California. The
+<a href="https://www.neonscience.org/field-sites/field-sites-map/SJER" target="_blank" >NEON San Joaquin Experimental Range (SJER) field site </a>
 located in Southern California has a very different ecosystem and climate than
 the
 <a href="https://www.neonscience.org/field-sites/field-sites-map/HARV" target="_blank" >NEON Harvard Forest Field Site</a>
-in Massachusetts.  
+in Massachusetts.
 
 Import the SJER DSM and DTM raster files and create a Canopy Height Model.
 Then compare the two sites. Be sure to name your R objects and outputs
@@ -337,15 +337,15 @@ carefully, as follows: objectType_SJER (e.g. `DSM_SJER`). This will help you
 keep track of data from different sites!
 
 1. Import the DSM and DTM from the SJER directory (if not aready imported
-in the 
-<a href="https://www.neonscience.org/dc-plot-raster-data-r" target="_blank"> *Plot Raster Data in R* tutorial</a>.) 
-Don't forget to examine the data for `CRS`, bad values, etc. 
+in the
+<a href="https://www.neonscience.org/dc-plot-raster-data-r" target="_blank"> *Plot Raster Data in R* tutorial</a>.)
+Don't forget to examine the data for `CRS`, bad values, etc.
 2. Create a `CHM` from the two raster layers and check to make sure the data
-are what you expect. 
-3. Plot the `CHM` from SJER. 
+are what you expect.
+3. Plot the `CHM` from SJER.
 4. Export the SJER CHM as a `GeoTIFF`.
-5. Compare the vegetation structure of the Harvard Forest and San Joaquin 
-Experimental Range. 
+5. Compare the vegetation structure of the Harvard Forest and San Joaquin
+Experimental Range.
 
 Hint: plotting SJER and HARV data side-by-side is an effective way to compare
 both datasets!
@@ -364,13 +364,13 @@ DTM_SJER
 DSM_SJER
 
 # check values
-hist(DTM_SJER, 
+hist(DTM_SJER,
      maxpixels=ncell(DTM_SJER),
      main="Digital Terrain Model - Histogram\n NEON SJER Field Site",
      col="slategrey",
      ylab="Number of Pixels",
      xlab="Elevation (m)")
-hist(DSM_SJER, 
+hist(DSM_SJER,
      maxpixels=ncell(DSM_SJER),
      main="Digital Surface Model - Histogram\n NEON SJER Field Site",
      col="slategray2",
@@ -382,7 +382,7 @@ hist(DSM_SJER,
 CHM_SJER <- overlay(DSM_SJER,DTM_SJER,
                     fun=function(r1, r2){return(r1-r2)})
 
-hist(CHM_SJER, 
+hist(CHM_SJER,
      main="Canopy Height Model - Histogram\n NEON SJER Field Site",
      col="springgreen4",
      ylab="Number of Pixels",
@@ -394,29 +394,29 @@ plot(CHM_SJER,
      main="Canopy Height Model - Overlay Subtract\n NEON SJER Field Site",
      axes=F)
 
-# 4 
+# 4
 # Write to object to file
 writeRaster(CHM_SJER,"chm_ov_SJER.tiff",
-            format="GTiff", 
-            overwrite=TRUE, 
+            format="GTiff",
+            overwrite=TRUE,
             NAflag=-9999)
 
-# 4.Tree heights are much shorter in SJER. 
-# view histogram of HARV again. 
+# 4.Tree heights are much shorter in SJER.
+# view histogram of HARV again.
 par(mfcol=c(2,1))
-hist(CHM_HARV, 
+hist(CHM_HARV,
      main="Canopy Height Model - Histogram\nNEON Harvard Forest Field Site",
      col="springgreen4",
       ylab="Number of Pixels",
      xlab="Elevation (m)")
 
-hist(CHM_SJER, 
+hist(CHM_SJER,
   main="Canopy Height Model - Histogram\nNEON SJER Field Site",
-  col="slategrey", 
+  col="slategrey",
   ylab="Number of Pixels",
   xlab="Elevation (m)")
 
 ```
 
-What do these two histograms tell us about the vegetation structure at Harvard 
+What do these two histograms tell us about the vegetation structure at Harvard
 and SJER?

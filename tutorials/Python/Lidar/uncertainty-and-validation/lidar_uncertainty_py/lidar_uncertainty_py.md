@@ -1,22 +1,22 @@
---- 
+---
 syncID: a6db1047adb34f41b9d17d6ed41f5fd5
 title: "Exploring Uncertainty in LiDAR Data using Python"
-description: "Learn to analyze the difference between rasters taken a few days apart to assess the uncertainty between days." 
-dateCreated: 2017-06-21 
+description: "Test - Learn to analyze the difference between rasters taken a few days apart to assess the uncertainty between days."
+dateCreated: 2017-06-21
 authors: Tristan Goulden
-contributors: 
-estimatedTime: 
+contributors:
+estimatedTime:
 packagesLibraries: numpy, gdal, matplotlib
 topics: hyperspectral-remote-sensing, remote-sensing
 languagesTool: python
-dataProduct: 
+dataProduct:
 code1: Python/remote-sensing/uncertainty/lidar_uncertainty_py.ipynb
 tutorialSeries: rs-uncertainty-py-series
 urlTitle: lidar-uncertainty-py
 ---
 
-In this exercise we will analyze the several NEON level 3 lidar rasters to assess 
-the uncertainty between days. 
+In this exercise we will analyze the several NEON level 3 lidar rasters to assess
+the uncertainty between days.
 
 <div id="ds-objectives" markdown="1">
 
@@ -51,17 +51,17 @@ Download Uncertainty DI18 Extension Dataset</a>
 </div>
 
 
-In 2016 the NEON AOP flew the PRIN site in D11 on a poor weather day to 
-ensure coverage of the site. The following day, the weather improved and the 
-site was flown again to collect good weather spectrometer data. Having 
-collections only one day apart provides an opportunity to assess LiDAR 
-uncertainty because we should expect that nothing has chnaged between the 
-two collects. In this exercise we will analyze the several NEON Level 3 lidar 
+In 2016 the NEON AOP flew the PRIN site in D11 on a poor weather day to
+ensure coverage of the site. The following day, the weather improved and the
+site was flown again to collect good weather spectrometer data. Having
+collections only one day apart provides an opportunity to assess LiDAR
+uncertainty because we should expect that nothing has chnaged between the
+two collects. In this exercise we will analyze the several NEON Level 3 lidar
 rasters to assess the uncertainty.
 
 ## Set up system
 
-First, we'll set up our system and load needed packages. 
+First, we'll set up our system and load needed packages.
 
 
 ```python
@@ -88,7 +88,7 @@ import matplotlib.pyplot as plt
 
 ## Define functions
 
-Next, we'll define a few functions that we will use throughout the code. 
+Next, we'll define a few functions that we will use throughout the code.
 
 
 
@@ -98,7 +98,7 @@ def plot_band_array(band_array,image_extent,title,cmap_title,colormap,colormap_l
     cbar = plt.colorbar(); plt.set_cmap(colormap); plt.clim(colormap_limits)
     cbar.set_label(cmap_title,rotation=270,labelpad=20)
     plt.title(title); ax = plt.gca()
-    ax.ticklabel_format(useOffset=False, style='plain') 
+    ax.ticklabel_format(useOffset=False, style='plain')
     rotatexlabels = plt.setp(ax.get_xticklabels(),rotation=90)
 ```
 
@@ -133,7 +133,7 @@ def raster2array(geotif_file):
         metadata['scaleFactor'] = raster.GetScale()
 
         # band statistics
-        metadata['bandstats'] = {} #make a nested dictionary to store band stats in same 
+        metadata['bandstats'] = {} #make a nested dictionary to store band stats in same
         stats = raster.GetStatistics(True,True)
         metadata['bandstats']['min'] = round(stats[0],2)
         metadata['bandstats']['max'] = round(stats[1],2)
@@ -149,7 +149,7 @@ def raster2array(geotif_file):
         print('More than one band ... need to modify function for case of multiple bands')
 ```
 
-This next piece of code just helps identify where the script portion of our code starts. It is not essential to the code but can be useful when running scripts. 
+This next piece of code just helps identify where the script portion of our code starts. It is not essential to the code but can be useful when running scripts.
 
 
 ```python
@@ -182,15 +182,15 @@ chm_array, chm_array_metadata = raster2array(chm_filename)
 
 ```
 
-Since we want to know what the changed between the two days, we will create an array with any of the pixel differneces across the two arrays.  To do this let's subtract the two DSMs. 
+Since we want to know what the changed between the two days, we will create an array with any of the pixel differneces across the two arrays.  To do this let's subtract the two DSMs.
 
 
 ```python
 diff_dsm_array = np.subtract(dsm1_array,dsm2_array)
-diff_dtm_array = np.subtract(dtm1_array,dtm2_array) 
+diff_dtm_array = np.subtract(dtm1_array,dtm2_array)
 ```
 
-Let's get some summary statistics for this DSM differences array. 
+Let's get some summary statistics for this DSM differences array.
 
 
 ```python
@@ -225,7 +225,7 @@ plt.show()
 
 
 
-The histogram has long tails, obscuring the distribution near the center. To constrain the x-limits of the histogram we will use the mean and standard deviation just calculated. Since the data appears to be normally distributed, we can constrain the histogram to 95% of the data by including 2 standard deviations above and below the mean.   
+The histogram has long tails, obscuring the distribution near the center. To constrain the x-limits of the histogram we will use the mean and standard deviation just calculated. Since the data appears to be normally distributed, we can constrain the histogram to 95% of the data by including 2 standard deviations above and below the mean.
 
 
 ```python
@@ -240,7 +240,7 @@ plt.show()
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/lidar-uncertainty/output_21_0.png)
 
 
-The histogram shows a wide variation in DSM differences, with those at the 95% limit at around +/- 1.5 m. Let's take a look at the spatial distribution of the errors by plotting a map of the difference between the two DSMs. Here we'll also use the extra variable in the plot function to constrain the limits of the colorbar to 95% of the observations. 
+The histogram shows a wide variation in DSM differences, with those at the 95% limit at around +/- 1.5 m. Let's take a look at the spatial distribution of the errors by plotting a map of the difference between the two DSMs. Here we'll also use the extra variable in the plot function to constrain the limits of the colorbar to 95% of the observations.
 
 
 ```python
@@ -259,7 +259,7 @@ It seems that there is a spatial pattern in the distribution of errors. Now let'
 diff_dtm_array_mean = np.nanmean(diff_dtm_array)
 diff_dtm_array_std = np.nanstd(diff_dtm_array)
 print('Mean difference in DTMs: ',round(diff_dtm_array_mean,3),' (m)')
-print('Standard deviations of difference in DTMs: ',round(diff_dtm_array_std,3),' (m)')          
+print('Standard deviations of difference in DTMs: ',round(diff_dtm_array_std,3),' (m)')
 
 plt.figure(4)
 plt.hist(diff_dtm_array.flatten()[~np.isnan(diff_dtm_array.flatten())],100,range=[diff_dtm_array_mean-2*diff_dtm_array_std, diff_dtm_array_mean+2*diff_dtm_array_std])
@@ -283,9 +283,9 @@ plt.show()
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/lidar-uncertainty/output_25_2.png)
 
 
-The overall magnitude of differences are smaller than in the DSM but the same spatial pattern of the error is evident. 
+The overall magnitude of differences are smaller than in the DSM but the same spatial pattern of the error is evident.
 
-Now, we'll plot the Canopy Height Model (CHM) of the same area. In the CHM, the tree heights above ground are represented, with all ground pixels having zero elevation. This time we'll use a colorbar which shows the ground as light green and the highest vegetation as dark green. We can set the lower limit of the color bar to zero and the upper limit to the mean canopy height to get a good color variation. 
+Now, we'll plot the Canopy Height Model (CHM) of the same area. In the CHM, the tree heights above ground are represented, with all ground pixels having zero elevation. This time we'll use a colorbar which shows the ground as light green and the highest vegetation as dark green. We can set the lower limit of the color bar to zero and the upper limit to the mean canopy height to get a good color variation.
 
 
 ```python
@@ -301,9 +301,9 @@ plt.show()
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/lidar-uncertainty/output_27_0.png)
 
 
-From the CHM, it appears the spatial distribution of error patterns follow the location of vegetation. 
+From the CHM, it appears the spatial distribution of error patterns follow the location of vegetation.
 
-Now let's isolate only the pixels in the difference DSM that correspond to vegetation location, calcualte the mean and standard deviation and plot the associated histogram. Before displaying the histogram, we'll remove the no data values from the difference DSM and the non-zero pixels from the CHM. To keep the number of elements the same in each vector to allow element-wise logical operations in Python, we have to remove the difference DSM no data elements from the CHM array as well. 
+Now let's isolate only the pixels in the difference DSM that correspond to vegetation location, calcualte the mean and standard deviation and plot the associated histogram. Before displaying the histogram, we'll remove the no data values from the difference DSM and the non-zero pixels from the CHM. To keep the number of elements the same in each vector to allow element-wise logical operations in Python, we have to remove the difference DSM no data elements from the CHM array as well.
 
 
 ```python
@@ -333,7 +333,7 @@ plt.show()
     <Figure size 432x288 with 0 Axes>
 
 
-The results show a similar mean difference of near zero, but an extremely high standard deviation of 1.381 m! Since the DSM represents the top of the tree canopy, this provides the level of uncertainty we can expect in the canopy height in forests characteristic of the PRIN site using NEON LiDAR data. 
+The results show a similar mean difference of near zero, but an extremely high standard deviation of 1.381 m! Since the DSM represents the top of the tree canopy, this provides the level of uncertainty we can expect in the canopy height in forests characteristic of the PRIN site using NEON LiDAR data.
 
 Next we'll calculate the statistics and plot the histogram of the DTM vegetated areas
 
@@ -346,7 +346,7 @@ print('Mean difference in DTMs on veg points: ',round(diff_dtm_array_veg_mean,3)
 print('Standard deviations of difference in DTMs on veg points: ',round(diff_dtm_array_veg_std,3),' (m)')
 
 plt.figure(10)
-diff_dtm_array_nodata_removed = diff_dtm_array[~np.isnan(diff_dtm_array)] 
+diff_dtm_array_nodata_removed = diff_dtm_array[~np.isnan(diff_dtm_array)]
 chm_dtm_nodata_removed = chm_array[~np.isnan(diff_dtm_array)]
 plt.hist((diff_dtm_array_nodata_removed[chm_dtm_nodata_removed!=0.0]),100,range=[diff_dtm_array_veg_mean-2*diff_dtm_array_veg_std, diff_dtm_array_veg_mean+2*diff_dtm_array_veg_std])
 plt.title('Histogram of PRIN DTM (veg)')
@@ -365,7 +365,7 @@ plt.show()
 
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/lidar-uncertainty/output_31_2.png)
 
-Here we can see that the mean difference is almost zero at 0.023 m, and the variation in less than the DSM at 0.163 m. 
+Here we can see that the mean difference is almost zero at 0.023 m, and the variation in less than the DSM at 0.163 m.
 
 Although the variation is reduced, it is still larger than expected for LiDAR. This is because under vegetation there may not be much laser energy reaching the ground, and those points that do may return with lower signal. The sparsity of points leads to surface interpolation over larger areas which can miss variations in the topography. Since the distribution of LIDAR and their location varied for each day, this resulted in different terrain representations and a uncertianty in the ground surface. This shows that the accuracy of LiDAR DTMs is reduced when under vegetation.
 
@@ -393,6 +393,6 @@ plt.show()
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/lidar-uncertainty/output_33_1.png)
 
 
-In the open ground scenario we are able to produce the error chatracteristics we expect with a mean difference of only 0.011 m and a variation of 0.068 m. 
+In the open ground scenario we are able to produce the error chatracteristics we expect with a mean difference of only 0.011 m and a variation of 0.068 m.
 
-This shows that the uncertainty we expect in the NEON LiDAR system (~0.15 m) is only valid in bare, open, hard surface scenarios. We cannot expect the accuracy of the LiDAR to reach this level when vegetation is present. Quantifying the top of the canopy is particularly difficult and can lead to uncertainty in excess of 1 m for any given pixel.  
+This shows that the uncertainty we expect in the NEON LiDAR system (~0.15 m) is only valid in bare, open, hard surface scenarios. We cannot expect the accuracy of the LiDAR to reach this level when vegetation is present. Quantifying the top of the canopy is particularly difficult and can lead to uncertainty in excess of 1 m for any given pixel.

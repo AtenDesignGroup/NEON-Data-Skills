@@ -1,7 +1,7 @@
 ---
 syncID: 41d7fc9adf1640839b4b117591110db8
 title: "Git 06: Sync GitHub Repos with Pull Requests"
-description: "This tutorial covers how to submit a pull request to a repository that you don't have direct push access to in order to suggest changes to content."
+description: "Test - This tutorial covers how to submit a pull request to a repository that you don't have direct push access to in order to suggest changes to content."
 dateCreated: 2016-05-06
 authors: Megan A. Jones
 contributors:
@@ -16,7 +16,7 @@ urlTitle: github-pull-requests
 
 ---
 
-This tutorial covers adding new edits or contents from your forked repo on github.com 
+This tutorial covers adding new edits or contents from your forked repo on github.com
 and a central repo.
 
 <div id="ds-objectives" markdown="1">
@@ -55,16 +55,16 @@ You won't need to repeat those steps.
 	<img src="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/pre-institute-content/pre-institute2-git/git-fork-clone-flow.png" width="70%"></a>
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/pre-institute-content/pre-institute2-git/git-fork-loop.png">
 	<img src="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/pre-institute-content/pre-institute2-git/git-fork-loop.png" width="70%"></a>
-	<figcaption> When you want to add materials from your repo to the central repo, 
-	you will use a Pull Request. LEFT: Initial workflow after you fork and clone 
-	a repo. RIGHT: Typical workflow once a repo is established (see Git 07 tutorial). Both use pull 
-	requests. 
+	<figcaption> When you want to add materials from your repo to the central repo,
+	you will use a Pull Request. LEFT: Initial workflow after you fork and clone
+	a repo. RIGHT: Typical workflow once a repo is established (see Git 07 tutorial). Both use pull
+	requests.
  	Source: National Ecological Observatory Network (NEON)
  </figcaption>
 </figure>
 
 In this tutorial, we will learn how to transfer changes from our forked
-repo in our github.com account to the central NEON Data Institute repo. Adding 
+repo in our github.com account to the central NEON Data Institute repo. Adding
 information from your forked repo to the central repo in GitHub is done using a
 **pull request**.
 
@@ -112,9 +112,9 @@ To start a pull request, click the pull request button on the main repo page.
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/pre-institute-content/pre-institute2-git/Git-ForkScreenshot-PR.png">
 	<img src="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/pre-institute-content/pre-institute2-git/Git-ForkScreenshot-PR.png"></a>
 	<figcaption> Location of the Pull Request button on a fork of the NEON
-Data Institute participants repo (Note, screenshot shows a previous version of 
+Data Institute participants repo (Note, screenshot shows a previous version of
 the repo, however, the button is in the same location). Source: National Ecological Observatory
-Network (NEON)  
+Network (NEON)
 	</figcaption>
 </figure>
 
@@ -122,14 +122,14 @@ Alternatively, you can click the Pull requests tab, then on this new page click 
 "New pull request" button.
 
 #### Step 2 - Choose Repos to Update
-Select your fork to compare with NEON central repo. When you begin a pull 
+Select your fork to compare with NEON central repo. When you begin a pull
 request, the head and base will auto-populate as follows:
 
 * base fork: **NEONScience/DI-NEON-participants**
 * head fork: **YOUR-USER-NAME/DI-NEON-participants**
 
 The above pull request configuration tells Git to sync (or update) the NEON repo
-with contents **from your repo**. 
+with contents **from your repo**.
 
 **Head vs Base**
 
@@ -142,7 +142,7 @@ we must add from the head to the base.
 
 #### Step 3 - Verify Changes
 When you compare two repos in a pull request page, git will provide an overview
-of the differences (diffs) between the files (if the file is a binary file, like 
+of the differences (diffs) between the files (if the file is a binary file, like
 code. Non-binary files will just show up as a fully new file if it had any changes).
 Look over the changes and make sure nothing looks surprising.
 
@@ -159,7 +159,7 @@ Look over the changes and make sure nothing looks surprising.
 
 #### Step 4 - Create Pull Request
 
-Click the green Create Pull Request button to create the pull request. 
+Click the green Create Pull Request button to create the pull request.
 
 
 #### Step 5 - Title Pull Request
@@ -178,28 +178,28 @@ When you’re done with your message, click Create pull request!
 
 Check out the repo name up at the top (in your repo and in screenshot above)
 When creating the pull request you will be automatically transferred to the base
-repo. Since the central repo was the base, github will automatically transfer 
+repo. Since the central repo was the base, github will automatically transfer
 you to the central repo landing page.
 
 
 #### Step 6 - Merge Pull Request
 In this final step, it’s time to merge your changes in the
-**NEONScience/DI-NEON-participants** repo. 
+**NEONScience/DI-NEON-participants** repo.
 
 NOTE 1: You are only able to merge a pull request in a repo that you have
 permissions to!
 
-NOTE 2: When collaborating, it is generally poor form to merge your own Pull Request, 
-better to tag (@username) a collaborator in the comments so they know you want 
-them to look at it. They can then review and, if acceptable, merge it.  
+NOTE 2: When collaborating, it is generally poor form to merge your own Pull Request,
+better to tag (@username) a collaborator in the comments so they know you want
+them to look at it. They can then review and, if acceptable, merge it.
 
-To merge, your (or someone else's PR click the green "Merge Pull Request" 
-button to "accept" or merge the updated commits in the central repo into your 
+To merge, your (or someone else's PR click the green "Merge Pull Request"
+button to "accept" or merge the updated commits in the central repo into your
 repo. Then click **Confirm Merge**.
 
 
-We now synced our forked repo with the central NEON Repo. The next step in working 
-in a GitHub workflow is to transfer any changes in the central repository into 
+We now synced our forked repo with the central NEON Repo. The next step in working
+in a GitHub workflow is to transfer any changes in the central repository into
 your local repo so you can work with them.
 
 
@@ -233,10 +233,10 @@ accept the request.
 
 </div>
 
-**After completing the pull request to upload your bio markdown file, be sure 
-to continue on to <a href="https://www.neonscience.org/git-setup-remote" target="_blank">*Git 07: Updating Your Repo by Setting Up a Remote*</a> 
+**After completing the pull request to upload your bio markdown file, be sure
+to continue on to <a href="https://www.neonscience.org/git-setup-remote" target="_blank">*Git 07: Updating Your Repo by Setting Up a Remote*</a>
 to learn how to update your local fork and really begin
-the cycle of working with Git & GitHub in a collaborative manner.** 
+the cycle of working with Git & GitHub in a collaborative manner.**
 
 ## Workflow Summary
 
@@ -250,7 +250,7 @@ On github.com
 * Button: Create Pull Request
 * Add Pull Request title & comments
 * Button: Create Pull Request
-* Button: Merge Pull Request - if working collaboratively, poor style to merge 
+* Button: Merge Pull Request - if working collaboratively, poor style to merge
 your own PR, and you only can if you have contributor permissions
 
 

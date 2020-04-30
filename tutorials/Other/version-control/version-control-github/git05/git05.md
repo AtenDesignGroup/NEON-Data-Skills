@@ -1,7 +1,7 @@
 ---
 syncID: ea49cde9b9514a89b3fb232708bbadb5
 title: "Git 05: Git Add Changes - Commit"
-description: "This tutorial covers how to edit a local version of a Git repository and then commit changes to it to be tracked in the Git version control system."
+description: "Test - This tutorial covers how to edit a local version of a Git repository and then commit changes to it to be tracked in the Git version control system."
 dateCreated: 2016-05-06
 authors: Megan A. Jones
 contributors:
@@ -74,7 +74,7 @@ using `git push`.
 
 Let's first run through some basic commands to get going with Git at the command
 line. First, it's always a good idea to check the status of your repository.
-This allows us to see any changes that have occurred.  
+This allows us to see any changes that have occurred.
 
 Do the following:
 
@@ -151,7 +151,7 @@ repo, you can do so using `git rm file-name-here.fileExtension`. If you delete
 a file in the finder (Mac) or Windows Explorer, you will still have to use
 `git add` at the command line to tell git that a file has been removed from the
 repo, and to track that "change".
-</div>  
+</div>
 
 ## Commit Changes - git commit
 
@@ -171,7 +171,7 @@ over time and when those changes occurred. Be sure that your message
 covers the change.
 
 <div id="ds-dataTip" markdown="1">
-<i class="fa fa-star"></i> 
+<i class="fa fa-star"></i>
 **Data Tip:** It is good practice to keep commit messages to fewer than 50 characters.
 </div>
 
@@ -240,7 +240,7 @@ currently working on.
 <i class="fa fa-star"></i> **Data Tip:**
 Note about branches in Git: We won't cover branches in these tutorials, however,
 a Git repo can consist of many branches. You can think about a branch, like
-an additional copy of a repo where you can work on changes and updates. 
+an additional copy of a repo where you can work on changes and updates.
 </div>
 
 Let's push the changes that we made to the local version of our Git repo to our
@@ -321,7 +321,7 @@ is in our individual user account, not NEONS. This fork is
 **separate from** the central repo. Changes to a fork in our github.com account
  do not automatically transfer to the central repo. We need to sync them! We will
  learn how to sync these two
-repos in the next tutorial 
+repos in the next tutorial
 <a href="https://www.neonscience.org/github-pull-requests" target="_blank"> Git 06: Syncing GitHub Repos with Pull Requests </a>.
 
 ## Summary Workflow - Committing Changes

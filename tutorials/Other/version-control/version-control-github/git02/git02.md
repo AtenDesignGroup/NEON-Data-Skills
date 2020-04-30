@@ -1,7 +1,7 @@
 ---
 syncID: 1d30df8e044b4c9e9098ac47310a0380
 title: "Git 02: GitHub.com - Repos & Forks"
-description: "This tutorial teaches you how to fork, or copy, an existing GitHub repository."
+description: "Test - This tutorial teaches you how to fork, or copy, an existing GitHub repository."
 dateCreated: 2016-05-06
 authors: Megan A. Jones
 contributors:
@@ -114,7 +114,7 @@ Git 06 tutorial.</a>
  <figure>
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/pre-institute-content/pre-institute2-git/Git-MasterScreenshot-tabs.png">
 	<img src="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/pre-institute-content/pre-institute2-git/Git-MasterScreenshot-tabs.png"></a>
-	<figcaption> Screenshot of the NEON Data Institute central repository (note, 
+	<figcaption> Screenshot of the NEON Data Institute central repository (note,
 	there has been a slight change in the repo name).
 	The github.com search bar is at the top of the page. Notice there are 6
 	"tabs" below the repo name including: Code, Issues, Pull Request, Pulse,
@@ -145,7 +145,7 @@ any time by clicking the fork button in the upper right hand corner on github.co
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/pre-institute-content/pre-institute2-git/GitHubGuides_Bootcamp-Fork.png">
 	<img src="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/pre-institute-content/pre-institute2-git/GitHubGuides_Bootcamp-Fork.png" width="70%"></a>
 	<figcaption> Click on the "Fork" button to fork any repo. Source:
-<a href="https://guides.github.com/activities/forking/" target="_blank">GitHub Guides</a>.  
+<a href="https://guides.github.com/activities/forking/" target="_blank">GitHub Guides</a>.
 	</figcaption>
 </figure>
 
@@ -156,7 +156,7 @@ any time by clicking the fork button in the upper right hand corner on github.co
  exact copy of the repo that we're forking in our own github.com account.
  Once the repo is in our own account, we can edit it as we now own that fork.
  Note that a fork is just a copy of the repo on github.com.
- Source: National Ecological Observatory Network (NEON) 
+ Source: National Ecological Observatory Network (NEON)
  </figcaption>
 </figure>
 

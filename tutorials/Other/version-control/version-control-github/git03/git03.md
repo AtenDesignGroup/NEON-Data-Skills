@@ -1,7 +1,7 @@
 ---
-syncID: 79a2980fe531424fb457b9c3ca61db6c 
+syncID: 79a2980fe531424fb457b9c3ca61db6c
 title: "Git 03: Git Clone - Work Locally On Your Computer"
-description: "This tutorial teaches you how to clone or copy a
+description: "Test - This tutorial teaches you how to clone or copy a
 GitHub repository to your local computer."
 dateCreated: 2016-05-06
 authors: Megan A. Jones
@@ -71,7 +71,7 @@ laptop, so that we can efficiently add to and edit repo content.
 Start from the github.com interface:
 
 1. Navigate to the repo that you want to clone (copy) to your computer --
-this should be `YOUR-USER-NAME/DI-NEON-participants`.  
+this should be `YOUR-USER-NAME/DI-NEON-participants`.
 2. Click on the **Clone or Download** dropdown button and copy the URL of the repo.
 
  <figure>

@@ -1,25 +1,25 @@
 ---
 syncID: 84457ead9b964c8d916eacde9f271ec7
 title: "Assessing Spectrometer Accuracy using Validation Tarps with Python"
-description: "Learn to analyze the difference between rasters taken a few days apart to assess the uncertainty between days." 
-dateCreated: 2017-06-21 
+description: "Test - Learn to analyze the difference between rasters taken a few days apart to assess the uncertainty between days."
+dateCreated: 2017-06-21
 authors: Tristan Goulden
 contributors:
 estimatedTime:
 packagesLibraries: numpy, gdal, matplotlib
 topics: hyperspectral-remote-sensing, remote-sensing
 languagesTool: python
-dataProduct: 
+dataProduct:
 code1: Python/remote-sensing/uncertainty/hyperspectral-validation.ipynb
 tutorialSeries: rs-uncertainty-py-series
 urlTitle: hyperspectral-validation-py
 ---
 
 
-In this tutorial we will learn how to retrieve relfectance curves from a 
-pre-specified coordainte in a NEON AOP HDF5 file, learn how to read a 
-tab delimited text file, retrieve bad band window indexes and mask portions of 
-a reflectance curve, plot reflectance curves on a graph and save the file, 
+In this tutorial we will learn how to retrieve relfectance curves from a
+pre-specified coordainte in a NEON AOP HDF5 file, learn how to read a
+tab delimited text file, retrieve bad band window indexes and mask portions of
+a reflectance curve, plot reflectance curves on a graph and save the file,
 gain an understanding of some sources of uncertainty in NIS data.
 
 <div id="ds-objectives" markdown="1">
@@ -27,7 +27,7 @@ gain an understanding of some sources of uncertainty in NIS data.
 ### Objectives
 After completing this tutorial, you will be able to:
 
-* Retrieve relfectance curves from a pre-specified coordainte in a NEON AOP HDF5 file, 
+* Retrieve relfectance curves from a pre-specified coordainte in a NEON AOP HDF5 file,
 * Read a tab delimited text file
 * Retrive bad band window indexes and mask portions of a reflectance curve
 * Plot reflectance curves on a graph and save the file
@@ -37,32 +37,32 @@ After completing this tutorial, you will be able to:
 
 * **numpy**
 * **pandas**
-* **gdal** 
-* **matplotlib** 
-* **h5py** 
+* **gdal**
+* **matplotlib**
+* **h5py**
 * **IPython.display**
 
 
 ### Download Data
 
-<h3> <a href="https://neondata.sharefile.com/d-s11d5c8b9c53426db"> NEON Teaching Data Subset: Data Institute 2017 Data Set</a></h3> 
+<h3> <a href="https://neondata.sharefile.com/d-s11d5c8b9c53426db"> NEON Teaching Data Subset: Data Institute 2017 Data Set</a></h3>
 
 To complete this tutorial, you will use data available from the NEON 2017 Data
-Institute teaching dataset available for download. 
+Institute teaching dataset available for download.
 
-Caution: This dataset includes all the data for the 2017 Data Institute, 
-including hyperspectral and lidar datasets and is therefore a large file (12 GB). 
-Ensure that you have sufficient space on your 
-hard drive before you begin the download. If not, download to an external 
-hard drive and make sure to correct for the change in file path when working 
+Caution: This dataset includes all the data for the 2017 Data Institute,
+including hyperspectral and lidar datasets and is therefore a large file (12 GB).
+Ensure that you have sufficient space on your
+hard drive before you begin the download. If not, download to an external
+hard drive and make sure to correct for the change in file path when working
 through the tutorial.
 
-The LiDAR and imagery data used to create this raster teaching data subset 
-were collected over the 
-<a href="http://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a> 
+The LiDAR and imagery data used to create this raster teaching data subset
+were collected over the
+<a href="http://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a>
 <a href="http://www.neonscience.org/science-design/field-sites/" target="_blank" >field sites</a>
 and processed at NEON headquarters.
-The entire dataset can be accessed on the 
+The entire dataset can be accessed on the
 <a href="http://data.neonscience.org" target="_blank"> NEON data portal</a>.
 
 <a href="https://neondata.sharefile.com/d-s11d5c8b9c53426db" class="link--button link--arrow">
@@ -75,7 +75,7 @@ Download Dataset</a>
 ### Recommended prerequisites
 
 We recommend you complete the following tutorials prior to this tutorial to have
-the necessary background. 
+the necessary background.
 
 1.  <a href="https://www.neonscience.org/neon-aop-hdf5-py"> *NEON AOP Hyperspectral Data in HDF5 format with Python*</a>
 1.  <a href="https://www.neonscience.org/neon-hsi-aop-functions-python"> *Band Stacking, RGB & False Color Images, and Interactive Widgets in Python*</a>
@@ -83,16 +83,16 @@ the necessary background.
 
 </div>
 
-In this tutorial we will be examing the accuracy of the Neon Imaging Spectrometer 
-(NIS) against targets with known reflectance. The targets consist of two 10 x 10 m 
-tarps which have been specially designed to have 3% reflectance (black tarp) and 
-48% reflectance (white tarp) across all of the wavelengths collected by the NIS 
-(see images below). During the Sept. 12 2016 flight over the 
-Chequamegon-Nicolet National Forest, an area in D05 which is part of 
+In this tutorial we will be examing the accuracy of the Neon Imaging Spectrometer
+(NIS) against targets with known reflectance. The targets consist of two 10 x 10 m
+tarps which have been specially designed to have 3% reflectance (black tarp) and
+48% reflectance (white tarp) across all of the wavelengths collected by the NIS
+(see images below). During the Sept. 12 2016 flight over the
+Chequamegon-Nicolet National Forest, an area in D05 which is part of
 Steigerwaldt (STEI) site, these tarps were deployed in a gravel pit. During the
- airborne overflight, observations were also taken over the tarps with an ASD 
-field spectrometer. The ASD measurments provide a validation source against the 
-the airborne measurements. 
+ airborne overflight, observations were also taken over the tarps with an ASD
+field spectrometer. The ASD measurments provide a validation source against the
+the airborne measurements.
 
  <figure class="half">
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/neon-aop/tarps_close.jpg">
@@ -101,19 +101,19 @@ the airborne measurements.
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/neon-aop/tarps_far.jpg">
 	<img src="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/neon-aop/tarps_far.jpg">
 	</a>
-</figure>  
+</figure>
  <figure>
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/neon-aop/tarps_aerial.jpg">
 	<img src="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/neon-aop/tarps_aerial.jpg"></a>
-	<figcaption> The validation tarps,  3% reflectance (black tarp) and 
-48% reflectance (white tarp), laid out in the field. 
-	Source: National Ecological Observatory Network (NEON)  
+	<figcaption> The validation tarps,  3% reflectance (black tarp) and
+48% reflectance (white tarp), laid out in the field.
+	Source: National Ecological Observatory Network (NEON)
 	</figcaption>
 </figure>
 
-To test the accuracy, we will utilize reflectance curves from the tarps as well 
-as from the associated flight line and execute absolute and relative comparisons. 
-The major error sources in the NIS can be generally categorized into the 
+To test the accuracy, we will utilize reflectance curves from the tarps as well
+as from the associated flight line and execute absolute and relative comparisons.
+The major error sources in the NIS can be generally categorized into the
 following sources:
 
 1. Calibration of the sensor
@@ -123,11 +123,11 @@ following sources:
 5. Terrain relief
 6. Terrain cover
 
-Note that the manual for ATCOR, the atmospheric correction software used by AOP, 
-specifies the accuracy of reflectance retrievals to be between 3 and 5% of 
-total reflectance. The tarps are located in a flat area, therefore, influences 
-by terrain releif should be minimal. We will ahve to keep the remining errors 
-in mind as we analyze the data. 
+Note that the manual for ATCOR, the atmospheric correction software used by AOP,
+specifies the accuracy of reflectance retrievals to be between 3 and 5% of
+total reflectance. The tarps are located in a flat area, therefore, influences
+by terrain releif should be minimal. We will ahve to keep the remining errors
+in mind as we analyze the data.
 
 
 ## Get Started
@@ -151,7 +151,7 @@ warnings.filterwarnings('ignore')
 %matplotlib inline
 ```
 
-As well as our function to read the hdf5 reflectance files and associated 
+As well as our function to read the hdf5 reflectance files and associated
 metadata.
 
 
@@ -197,13 +197,13 @@ def h5refl2array(h5_filename):
     metadata['ext_dict']['xMax'] = xMax
     metadata['ext_dict']['yMin'] = yMin
     metadata['ext_dict']['yMax'] = yMax
-    hdf5_file.close        
+    hdf5_file.close
     return reflArray, metadata, wavelengths
 ```
 
-Define the location where you are holding the data for the data institute. The 
-h5_filename will be the flightline which contains the tarps, and the 
-tarp_48_filename and tarp_03_filename contain the field validated spectra 
+Define the location where you are holding the data for the data institute. The
+h5_filename will be the flightline which contains the tarps, and the
+tarp_48_filename and tarp_03_filename contain the field validated spectra
 for the white and black tarp respectively, organized by wavelength and reflectance.
 
 
@@ -217,11 +217,11 @@ tarp_03_filename = 'C:/RSDI_2017/data/CHEQ/H5/CHEQ_Tarp_03_02_refl_bavg.txt'
 ```
 
     Start CHEQ tarp uncertainty script
-    
 
-We want to pull the spectra from the airborne data from the center of the 
-tarp to minimize any errors introduced by infiltrating light in adjecent 
-pixels, or through errors in ortho-rectification (source 2). We have pre-determined 
+
+We want to pull the spectra from the airborne data from the center of the
+tarp to minimize any errors introduced by infiltrating light in adjecent
+pixels, or through errors in ortho-rectification (source 2). We have pre-determined
 the coordinates for the center of each tarp which are as follows:
 
 48% reflectance tarp UTMx: 727487, UTMy: 5078970
@@ -231,9 +231,9 @@ the coordinates for the center of each tarp which are as follows:
  <figure>
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/neon-aop/tarp_centers.jpg">
 	<img src="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/neon-aop/tarp_centers.jpg"></a>
-	<figcaption> The validation tarps,  3% reflectance (black tarp) and 
-48% reflectance (white tarp), laid out in the field. 
-	Source: National Ecological Observatory Network (NEON)  
+	<figcaption> The validation tarps,  3% reflectance (black tarp) and
+48% reflectance (white tarp), laid out in the field.
+	Source: National Ecological Observatory Network (NEON)
 	</figcaption>
 </figure>
 
@@ -246,7 +246,7 @@ tarp_48_center = np.array([727487,5078970])
 tarp_03_center = np.array([727497,5078970])
 ```
 
-Now we'll use our function designed for NEON AOP's HDF5 files to access the 
+Now we'll use our function designed for NEON AOP's HDF5 files to access the
 hyperspectral data.
 
 
@@ -254,12 +254,12 @@ hyperspectral data.
 [reflArray,metadata,wavelengths] = h5refl2array(h5_filename)
 ```
 
-Within the reflectance curves there are areas with noisey data due to 
-atmospheric windows in the water absorption bands. For this exercise we do not 
-want to plot these areas as they obscure detailes in the plots due to their 
-anamolous values. The meta data assocaited with these band locations is 
-contained in the metadata gatherd by our function. We will pull out these areas 
-as 'bad band windows' and determine which indexes in the reflectance curves 
+Within the reflectance curves there are areas with noisey data due to
+atmospheric windows in the water absorption bands. For this exercise we do not
+want to plot these areas as they obscure detailes in the plots due to their
+anamolous values. The meta data assocaited with these band locations is
+contained in the metadata gatherd by our function. We will pull out these areas
+as 'bad band windows' and determine which indexes in the reflectance curves
 contain the bad bands.
 
 
@@ -279,8 +279,8 @@ Now join the list of indexes together into a single variable
 index_bad_windows = index_bad_window1+index_bad_window2
 ```
 
-The reflectance data is saved in files which are *tab delimited.* We will use a 
-numpy function `genfromtxt` to quickly import the tarp reflectance curves observed 
+The reflectance data is saved in files which are *tab delimited.* We will use a
+numpy function `genfromtxt` to quickly import the tarp reflectance curves observed
 with the ASD using the `\t` delimeter to indicate tabs are used.
 
 
@@ -289,7 +289,7 @@ tarp_48_data = np.genfromtxt(tarp_48_filename, delimiter = '\t')
 tarp_03_data = np.genfromtxt(tarp_03_filename, delimiter = '\t')
 ```
 
-Now we'll set all the data inside of those windows to NaNs (not a number) so 
+Now we'll set all the data inside of those windows to NaNs (not a number) so
 they will not be included in the plots.
 
 
@@ -298,12 +298,12 @@ tarp_48_data[index_bad_windows] = np.nan
 tarp_03_data[index_bad_windows] = np.nan
 ```
 
-The next step is to determine which pixel in the reflectance data belongs to the 
-center of each tarp. To do this, we will subtract the tarp center pixel 
-location from the upper left corner pixels specified in the map info of the H5 
-file. This information is saved in the metadata dictionary output from our 
-function that reads NEON AOP HDF5 files. The difference between these coordinates 
-gives us the x and y index of the reflectance curve. 
+The next step is to determine which pixel in the reflectance data belongs to the
+center of each tarp. To do this, we will subtract the tarp center pixel
+location from the upper left corner pixels specified in the map info of the H5
+file. This information is saved in the metadata dictionary output from our
+function that reads NEON AOP HDF5 files. The difference between these coordinates
+gives us the x and y index of the reflectance curve.
 
 
 ```python
@@ -314,9 +314,9 @@ x_tarp_03_index = int((tarp_03_center[0] - metadata['ext_dict']['xMin'])/float(m
 y_tarp_03_index = int((metadata['ext_dict']['yMax'] - tarp_03_center[1])/float(metadata['res']['pixelHeight']))
 ```
 
-Next, we will plot both the curve from the airborne data taken at the center of 
-the tarps as well as the curves obtained from the ASD data to provide a 
-visualisation of their consistency for both tarps. Once generated, we will also 
+Next, we will plot both the curve from the airborne data taken at the center of
+the tarps as well as the curves obtained from the ASD data to provide a
+visualisation of their consistency for both tarps. Once generated, we will also
 save the figure to a pre-determined location.
 
 
@@ -351,16 +351,16 @@ plt.savefig('CHEQ_20160912_3_tarp.png',dpi=300,orientation='landscape',bbox_inch
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/hyperspectral-validation/output_21_1.png)
 
 
-This produces plots showing the results of the ASD and airborne measurements 
-over the 48% tarp. Visually, the comparison between the two appears to be fairly 
-good. However, over the 3% tarp we appear to be over-estimating the reflectance. 
-Large absolute differences could be associated with ATCOR input parameters 
-(source 4). For example, the user must input the local visibility, which is 
-related to aerosal optical thickness (AOT). We don't measure this at every site, 
-therefore input a standard parameter for all sites. 
+This produces plots showing the results of the ASD and airborne measurements
+over the 48% tarp. Visually, the comparison between the two appears to be fairly
+good. However, over the 3% tarp we appear to be over-estimating the reflectance.
+Large absolute differences could be associated with ATCOR input parameters
+(source 4). For example, the user must input the local visibility, which is
+related to aerosal optical thickness (AOT). We don't measure this at every site,
+therefore input a standard parameter for all sites.
 
-Given the 3% reflectance tarp has much lower overall reflactance, it may be more 
-informative to determine what the absolute difference between the two curves are 
+Given the 3% reflectance tarp has much lower overall reflactance, it may be more
+informative to determine what the absolute difference between the two curves are
 and plot that as well.
 
 
@@ -385,15 +385,15 @@ plt.savefig('CHEQ_20160912_3_tarp_absolute_diff.png',dpi=300,orientation='landsc
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/hyperspectral-validation/output_23_1.png)
 
 
-From this we are able to see that the 48% tarp actually has larger absolute 
-differences than the 3% tarp. The 48% tarp performs poorly at the shortest and 
-longest waveleghts as well as near the edges of the 'bad band windows.' This is 
-related to difficulty in calibrating the sensor in these sensitive areas 
+From this we are able to see that the 48% tarp actually has larger absolute
+differences than the 3% tarp. The 48% tarp performs poorly at the shortest and
+longest waveleghts as well as near the edges of the 'bad band windows.' This is
+related to difficulty in calibrating the sensor in these sensitive areas
 (source 1).
 
-Let's now determine the result of the percent difference, which is the metric 
-used by ATCOR to report accuracy. We can do this by calculating the ratio of 
-the absolute difference between curves to the total reflectance. 
+Let's now determine the result of the percent difference, which is the metric
+used by ATCOR to report accuracy. We can do this by calculating the ratio of
+the absolute difference between curves to the total reflectance.
 
 
 
@@ -424,9 +424,9 @@ plt.savefig('CHEQ_20160912_3_tarp_relative_diff.png',dpi=300,orientation='landsc
 
 
 
-From these plots we can see that even though the absolute error on the 48% tarp 
-was larger, the relative error on the 48% tarp is generally much smaller. The 3% tarp 
-can have errors exceeding 50% for most of the tarp. This indicates that targets 
+From these plots we can see that even though the absolute error on the 48% tarp
+was larger, the relative error on the 48% tarp is generally much smaller. The 3% tarp
+can have errors exceeding 50% for most of the tarp. This indicates that targets
 with low reflectance values may have higher relative errors.
 
 

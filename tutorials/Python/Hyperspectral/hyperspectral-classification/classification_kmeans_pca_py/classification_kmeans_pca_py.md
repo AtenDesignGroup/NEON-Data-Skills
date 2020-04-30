@@ -1,8 +1,8 @@
 ---
 syncID: 75f8885948494c0dbe6084099c61dd1e
 title: "Unsupervised Spectral Classification in Python: KMeans & PCA"
-description: "Learn to classify spectral data using KMeans and Principal Components Analysis (PCA)."
-dateCreated: 2018-07-10 
+description: "Test - Learn to classify spectral data using KMeans and Principal Components Analysis (PCA)."
+dateCreated: 2018-07-10
 authors: Bridget Hass
 contributors:
 estimatedTime:
@@ -15,21 +15,21 @@ tutorialSeries: intro-hsi-py-series
 urlTitle: classification-kmeans-pca-python
 ---
 
-In this tutorial, we will use the `Spectral Python (SPy)` package to run KMeans and Principal Component Analysis unsupervised classification algorithms. 
+In this tutorial, we will use the `Spectral Python (SPy)` package to run KMeans and Principal Component Analysis unsupervised classification algorithms.
 
 <div id="ds-objectives" markdown="1">
 
 ### Objectives
 After completing this tutorial, you will be able to:
 
-* Classify spectral remote sensing data. 
+* Classify spectral remote sensing data.
 
 ### Install Python Packages
 
 * **numpy**
-* **gdal** 
-* **matplotlib** 
-* **matplotlib.pyplot** 
+* **gdal**
+* **matplotlib**
+* **matplotlib.pyplot**
 
 
 ### Download Data
@@ -39,9 +39,9 @@ Download the spectral classification teaching data subset</a>
 
 </div>
 
-In this tutorial, we will use the `Spectral Python (SPy)` package to run KMeans and Principal Component Analysis unsupervised classification algorithms. 
+In this tutorial, we will use the `Spectral Python (SPy)` package to run KMeans and Principal Component Analysis unsupervised classification algorithms.
 
-To learn more about the Spcral Python packages read: 
+To learn more about the Spcral Python packages read:
 
 * <a href="http://www.spectralpython.net/user_guide.html" target="blank">Spectral Python User Guide</a>.
 * <a href="http://www.spectralpython.net/algorithms.html#unsupervised-classification" target="_blank">Spectral Python Unsupervised Classification</a>.
@@ -50,11 +50,11 @@ To learn more about the Spcral Python packages read:
 ## KMeans Clustering
 
 
-**KMeans** is an iterative clustering algorithm used to classify unsupervised data (eg. data without a training set) into a specified number of groups. The algorithm begins with an initial set of randomly determined cluster centers. Each pixel in the image is then assigned to the nearest cluster center (using distance in N-space as the distance metric) and each cluster center is then re-computed as the centroid of all pixels assigned to the cluster. This process repeats until a desired stopping criterion is reached (e.g. max number of iterations). 
+**KMeans** is an iterative clustering algorithm used to classify unsupervised data (eg. data without a training set) into a specified number of groups. The algorithm begins with an initial set of randomly determined cluster centers. Each pixel in the image is then assigned to the nearest cluster center (using distance in N-space as the distance metric) and each cluster center is then re-computed as the centroid of all pixels assigned to the cluster. This process repeats until a desired stopping criterion is reached (e.g. max number of iterations).
 
-Read more on KMeans clustering from <a href="http://www.spectralpython.net/algorithms.html#k-means-clustering" target="_blank">Spectral Python</a>. 
+Read more on KMeans clustering from <a href="http://www.spectralpython.net/algorithms.html#k-means-clustering" target="_blank">Spectral Python</a>.
 
-To visualize how the algorithm works, it's easier look at a 2D data set. In the example below, watch how the cluster centers shift with progressive iterations, 
+To visualize how the algorithm works, it's easier look at a 2D data set. In the example below, watch how the cluster centers shift with progressive iterations,
 
 
  <figure>
@@ -69,7 +69,7 @@ To visualize how the algorithm works, it's easier look at a 2D data set. In the 
 
 Many of the bands within hyperspectral images are often strongly correlated. The principal components transformation represents a linear transformation of the original image bands to a set of new, uncorrelated features. These new features correspond to the eigenvectors of the image covariance matrix, where the associated eigenvalue represents the variance in the direction of the eigenvector. A very large percentage of the image variance can be captured in a relatively small number of principal components (compared to the original number of bands).
 
-Read more about PCA with 
+Read more about PCA with
 <a href="http://www.spectralpython.net/algorithms.html#principal-components" target="_blank">Spectral Python</a>.
 
 
@@ -77,40 +77,40 @@ Read more about PCA with
 
 To run this notebook, the following Python packages need to be installed. You can install required packages from command line `pip install spectra scikit-learn cvxopt`.
 
-or if already in a Jupyter Notebook, run the following code in a Notebook code cell. 
- 
+or if already in a Jupyter Notebook, run the following code in a Notebook code cell.
+
 Packages:
 - pylab
 - spectral
 - scikit-learn (optional)
 
-```python 
+```python
 import sys
 !{sys.executable} -m pip install spectral
 !conda install --yes --prefix {sys.prefix} scikit-learn
-!conda install --yes --prefix {sys.prefix} cvxopt 
+!conda install --yes --prefix {sys.prefix} cvxopt
 ```
 
-In order to make use of the interactive graphics capabilities of `spectralpython`, such as `N-Dimensional Feature Display`, you work in a Python 3.6 environment (as of July 2018). 
+In order to make use of the interactive graphics capabilities of `spectralpython`, such as `N-Dimensional Feature Display`, you work in a Python 3.6 environment (as of July 2018).
 
 For more, read from <a href="http://www.spectralpython.net/graphics.html" target="_blank">Spectral Python</a>.
 
 **Optional:**
 
 **matplotlib wx backend** (for 3-D visualization of PCA, requires Python 3.6)
-Find out more on 
-<a href="https://stackoverflow.com/questions/42007164/how-to-install-wxpython-phoenix-for-python-3-6" target="_blank"> StackOverflow</a>. 
+Find out more on
+<a href="https://stackoverflow.com/questions/42007164/how-to-install-wxpython-phoenix-for-python-3-6" target="_blank"> StackOverflow</a>.
 
-```python 
+```python
 conda install -c newville wxpython-phoenix
 ```
 
 **Managing Conda Environments**
 - **nb_conda_kernels** package provides a separate jupyter kernel for each conda environment
-- Find out more on 
-<a href="https://conda.io/docs/user-guide/tasks/manage-environments.html" target="_blank"> Conda docs</a>. 
+- Find out more on
+<a href="https://conda.io/docs/user-guide/tasks/manage-environments.html" target="_blank"> Conda docs</a>.
 
-```python 
+```python
 conda install -c conda-forge nb_conda_kernels
 ```
 
@@ -128,7 +128,7 @@ import warnings
 warnings.filterwarnings('ignore')
 ```
 
-For this example, we will read in a reflectance tile in ENVI format. NEON provides an h5 plugin for ENVI 
+For this example, we will read in a reflectance tile in ENVI format. NEON provides an h5 plugin for ENVI
 
 
 ```python
@@ -136,7 +136,7 @@ img = envi.open('../data/Hyperspectral/NEON_D02_SERC_DP3_368000_4306000_reflecta
                 '../data/Hyperspectral/NEON_D02_SERC_DP3_368000_4306000_reflectance.dat')
 ```
 
-Note that the information is stored differently when read in with `envi.open`. We can find the wavelength information in `img.bands.centers`. Let's take a look at the first and last wavelengths values: 
+Note that the information is stored differently when read in with `envi.open`. We can find the wavelength information in `img.bands.centers`. Let's take a look at the first and last wavelengths values:
 
 
 ```python
@@ -253,10 +253,10 @@ print(view)
         R: [0.0058, 0.1471]
         G: [0.0184, 0.133]
         B: [0.0086, 0.1099]
-    
 
 
-When dealing with NEON hyperspectral data, we first want to remove the water vapor & noisy bands, keeping only the valid bands. To speed up the classification algorithms for demonstration purposes, we'll look at a subset of the data using `read_subimage`, a built in method to subset by area and bands. Type `help(img.read_subimage)` to see how it works. 
+
+When dealing with NEON hyperspectral data, we first want to remove the water vapor & noisy bands, keeping only the valid bands. To speed up the classification algorithms for demonstration purposes, we'll look at a subset of the data using `read_subimage`, a built in method to subset by area and bands. Type `help(img.read_subimage)` to see how it works.
 
 
 ```python
@@ -279,7 +279,7 @@ Now that we have the image subsetted, lets run the `k-means` algorithm. Type `he
 
 
 ```python
-(m,c) = kmeans(img_subset,5,50) 
+(m,c) = kmeans(img_subset,5,50)
 ```
 
     Initializing clusters along diagonal of N-dimensional bounding box.
@@ -301,7 +301,7 @@ Now that we have the image subsetted, lets run the `k-means` algorithm. Type `he
     kmeans terminated with 5 clusters after 14 iterations.
 
 
-Note that the algorithm terminated after 14 iterations, when the pixels stopped being reassigned. 
+Note that the algorithm terminated after 14 iterations, when the pixels stopped being reassigned.
 
 **Data Tip**: You can iterrupt the algorithm with a keyboard interrupt (CTRL-C) if you notice that the number of reassigned pixels drops off. Kmeans catches the KeyboardInterrupt exception and returns the clusters generated at the end of the previous iteration. If you are running the algorithm interactively, this feature allows you to set the max number of iterations to an arbitrarily high number and then stop the algorithm when the clusters have converged to an acceptable level. If you happen to set the max number of iterations too small (many pixels are still migrating at the end of the final iteration), you can simply call kmeans again to resume processing by passing the cluster centers generated by the previous call as the optional `start_clusters` argument to the function.
 
@@ -370,8 +370,8 @@ view.show_data
 
 ## Challenges: K-Means
 
-1. What do you think the spectral classes in the figure you just created represent? 
-2. Try using a different number of clusters in the `kmeans` algorithm (e.g., 3 or 10) to see what spectral classes and classifications result. 
+1. What do you think the spectral classes in the figure you just created represent?
+2. Try using a different number of clusters in the `kmeans` algorithm (e.g., 3 or 10) to see what spectral classes and classifications result.
 
 ## Principal Component Analysis (PCA)
 

@@ -1,7 +1,7 @@
 ---
 syncID: c234390cc4724005b20d9a6048c8a889
 title: "Document & Publish Your Workflow: R Markdown & knitr"
-description: "This tutorial introduces the importance of tools supporting documenting & publishing a workflow."
+description: "Test - This tutorial introduces the importance of tools supporting documenting & publishing a workflow."
 dateCreated: 2016-01-01
 authors:
 contributors:
@@ -25,8 +25,8 @@ workflows online.
 At the end of this activity, you will be able to:
 
 * Explain why documenting and publishing one's code is important.
-* Describe two tools that enable ease of publishing code & output: R Markdown and 
-the `knitr` package. 
+* Describe two tools that enable ease of publishing code & output: R Markdown and
+the `knitr` package.
 
 </div>
 
@@ -49,7 +49,7 @@ code and code output.
 
 ## The Tools We Will Use
 
-### R Markdown  
+### R Markdown
 
 > “R Markdown is an authoring format that enables easy creation of dynamic
 documents, presentations, and reports from R. It combines the core syntax of
@@ -100,10 +100,10 @@ files.
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/pre-institute-content/pre-institute3-rmd/knitr-output.png">
 	<img src="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/pre-institute-content/pre-institute3-rmd/knitr-output.png">
 	</a>
-	<figcaption>R Markdown script (left) and the HTML produced from the knit R 
+	<figcaption>R Markdown script (left) and the HTML produced from the knit R
 	Markdown script (right). Source: National Ecological Observatory Network (NEON)
 	</figcaption>
-</figure>  
+</figure>
 >The knitr package was designed to be a transparent engine for dynamic report
 generation with R --
 <a href="http://yihui.name/knitr/" target="_blank"> Yihui Xi -- knitr package creator</a>

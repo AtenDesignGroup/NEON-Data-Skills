@@ -1,11 +1,11 @@
 ---
 syncID: b0860577d1994b6e8abd23a6edf9e005
 title: "Classify a Raster Using Threshold Values in Python - 2018"
-description: "Learn how to read NEON lidar raster GeoTIFFs (e.g., CHM, slope, aspect) into Python numpy arrays with gdal and create a classified raster object." 
-dateCreated: 2018-07-04 
+description: "Test - Learn how to read NEON lidar raster GeoTIFFs (e.g., CHM, slope, aspect) into Python numpy arrays with gdal and create a classified raster object."
+dateCreated: 2018-07-04
 authors: Bridget Hass
-contributors: 
-estimatedTime: 
+contributors:
+estimatedTime:
 packagesLibraries: numpy, gdal, matplotlib, os, copy
 topics: lidar, raster, remote-sensing
 languagesTool: python
@@ -15,8 +15,8 @@ tutorialSeries: intro-lidar-py-series
 urlTitle: classify-raster-thresholds-2018-py
 ---
 
-In this tutorial, we will learn how to read NEON lidar raster GeoTIFFS 
-(e.g., CHM, slope aspect) into Python `numpy` arrays with gdal and create a 
+In this tutorial, we will learn how to read NEON lidar raster GeoTIFFS
+(e.g., CHM, slope aspect) into Python `numpy` arrays with gdal and create a
 classified raster object.
 
 <div id="ds-objectives" markdown="1">
@@ -31,26 +31,26 @@ After completing this tutorial, you will be able to:
 ### Install Python Packages
 
 * **numpy**
-* **gdal** 
-* **matplotlib** 
+* **gdal**
+* **matplotlib**
 
 ### Download Data
 
-<h3> NEON Teaching Data Subset: Data Institute 2018</h3> 
+<h3> NEON Teaching Data Subset: Data Institute 2018</h3>
 
 To complete these materials, you will use data available from the NEON 2018 Data
-Institute teaching datasets available for download. 
+Institute teaching datasets available for download.
 
-The combined data sets below contain about 10 GB of data. Please consider how 
-large your hard drive is prior to downloading. If needed you may want to use an 
-external hard drive. 
+The combined data sets below contain about 10 GB of data. Please consider how
+large your hard drive is prior to downloading. If needed you may want to use an
+external hard drive.
 
-The LiDAR and imagery data used to create this raster teaching data subset 
-were collected over the 
-<a href="http://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a> 
+The LiDAR and imagery data used to create this raster teaching data subset
+were collected over the
+<a href="http://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a>
 <a href="http://www.neonscience.org/science-design/field-sites/" target="_blank" >field sites</a>
 and processed at NEON headquarters.
-All NEON data products can be accessed on the 
+All NEON data products can be accessed on the
 <a href="http://data.neonscience.org" target="_blank"> NEON data portal</a>.
 
 <a href="https://neondata.sharefile.com/d-s7788427bae04c6c9" target="_blank"class="link--button link--arrow">
@@ -59,7 +59,7 @@ Download Lidar & Hyperspectral Dataset</a>
 <a href="https://neondata.sharefile.com/d-s58db39240bf49ac8" target="_blank" class="link--button link--arrow">
 Download the Biomass Calculation Dataset</a>
 
-The link below contains all the data from the 2017 Data Institute (17 GB). <strong>For 2018, we ONLY 
+The link below contains all the data from the 2017 Data Institute (17 GB). <strong>For 2018, we ONLY
 need the data in the CHEQ, F07A, and PRIN subfolders.</strong> To minimize the size of your
 download, please select only these subdirectories to download.
 
@@ -74,10 +74,10 @@ Download Uncertainty Exercises Dataset</a>
 
 </div>
 
-In this tutorial, we will work with the NEON AOP L3 LiDAR ecoysystem structure 
-(Canopy Height Model) data product. For more information about NEON data products 
-and the CHM product DP3.30015.001, see the 
-<a href="http://data.neonscience.org/data-products/DP3.30015.001" target="_blank">NEON Data Product Catalog</a>. 
+In this tutorial, we will work with the NEON AOP L3 LiDAR ecoysystem structure
+(Canopy Height Model) data product. For more information about NEON data products
+and the CHM product DP3.30015.001, see the
+<a href="http://data.neonscience.org/data-products/DP3.30015.001" target="_blank">NEON Data Product Catalog</a>.
 
 First, let's import the required packages and set our plot display to be in-line:
 
@@ -102,11 +102,11 @@ chm_dataset = gdal.Open(chm_filename)
 ```
 
 ### Read GeoTIFF Tags
-The GeoTIFF file format comes with associated metadata containing information about the location and coordinate system/projection. Once we have read in the dataset, we can access this information with the following commands: 
+The GeoTIFF file format comes with associated metadata containing information about the location and coordinate system/projection. Once we have read in the dataset, we can access this information with the following commands:
 
 
 ```python
-#Display the dataset dimensions, number of bands, driver, and geotransform 
+#Display the dataset dimensions, number of bands, driver, and geotransform
 cols = chm_dataset.RasterXSize; print('# of columns:',cols)
 rows = chm_dataset.RasterYSize; print('# of rows:',rows)
 print('# of bands:',chm_dataset.RasterCount)
@@ -121,7 +121,7 @@ print('driver:',chm_dataset.GetDriver().LongName)
 
 ### Use GetProjection
 
-We can use the `gdal` ```GetProjection``` method to display information about the coordinate system and EPSG code. 
+We can use the `gdal` ```GetProjection``` method to display information about the coordinate system and EPSG code.
 
 
 ```python
@@ -133,7 +133,7 @@ print('projection:',chm_dataset.GetProjection())
 
 ### Use GetGeoTransform
 
-The geotransform contains information about the origin (upper-left corner) of the raster, the pixel size, and the rotation angle of the data. All NEON data in the latest format have zero rotation. In this example, the values correspond to: 
+The geotransform contains information about the origin (upper-left corner) of the raster, the pixel size, and the rotation angle of the data. All NEON data in the latest format have zero rotation. In this example, the values correspond to:
 
 
 ```python
@@ -150,7 +150,7 @@ In this case, the geotransform values correspond to:
 3. Rotation (0 if Image is North-Up) = `0.0`
 4. Upper Y Coordinate = `4307000.0`
 5. Rotation (0 if Image is North-Up) = `0.0`
-6. N-S Pixel Resolution = `-1.0` 
+6. N-S Pixel Resolution = `-1.0`
 
 The negative value for the N-S Pixel resolution reflects that the origin of the image is the upper left corner. We can convert this geotransform information into a spatial extent (xMin, xMax, yMin, yMax) by combining information about the origin, number of columns & rows, and pixel size, as follows:
 
@@ -160,7 +160,7 @@ chm_mapinfo = chm_dataset.GetGeoTransform()
 xMin = chm_mapinfo[0]
 yMax = chm_mapinfo[3]
 
-xMax = xMin + chm_dataset.RasterXSize/chm_mapinfo[1] #divide by pixel width 
+xMax = xMin + chm_dataset.RasterXSize/chm_mapinfo[1] #divide by pixel width
 yMin = yMax + chm_dataset.RasterYSize/chm_mapinfo[5] #divide by pixel height (note sign +/-)
 chm_ext = (xMin,xMax,yMin,yMax)
 print('chm raster extent:',chm_ext)
@@ -179,7 +179,7 @@ chm_raster = chm_dataset.GetRasterBand(1)
 noDataVal = chm_raster.GetNoDataValue(); print('no data value:',noDataVal)
 scaleFactor = chm_raster.GetScale(); print('scale factor:',scaleFactor)
 chm_stats = chm_raster.GetStatistics(True,True)
-print('SERC CHM Statistics: Minimum=%.2f, Maximum=%.2f, Mean=%.3f, StDev=%.3f' % 
+print('SERC CHM Statistics: Minimum=%.2f, Maximum=%.2f, Mean=%.3f, StDev=%.3f' %
       (chm_stats[0], chm_stats[1], chm_stats[2], chm_stats[3]))
 ```
 
@@ -190,7 +190,7 @@ print('SERC CHM Statistics: Minimum=%.2f, Maximum=%.2f, Mean=%.3f, StDev=%.3f' %
 
 ### Use ReadAsArray
 
-Finally we can convert the raster to an array using the `ReadAsArray` method. Cast the array to a floating point value using `astype(np.float)`. Once we generate the array, we want to set No Data Values to NaN, and apply the scale factor: 
+Finally we can convert the raster to an array using the `ReadAsArray` method. Cast the array to a floating point value using `astype(np.float)`. Once we generate the array, we want to set No Data Values to NaN, and apply the scale factor:
 
 
 ```python
@@ -247,18 +247,18 @@ To get a better idea of the dataset, we can use a similar function to `plot_aop_
 
 ```python
 def plot_spatial_array(band_array,spatial_extent,colorlimit,ax=plt.gca(),title='',cmap_title='',colormap=''):
-    plot = plt.imshow(band_array,extent=spatial_extent,clim=colorlimit); 
-    cbar = plt.colorbar(plot,aspect=40); plt.set_cmap(colormap); 
+    plot = plt.imshow(band_array,extent=spatial_extent,clim=colorlimit);
+    cbar = plt.colorbar(plot,aspect=40); plt.set_cmap(colormap);
     cbar.set_label(cmap_title,rotation=90,labelpad=20);
-    plt.title(title); ax = plt.gca(); 
+    plt.title(title); ax = plt.gca();
     ax.ticklabel_format(useOffset=False, style='plain'); #do not use scientific notation #
     rotatexlabels = plt.setp(ax.get_xticklabels(),rotation=90); #rotate x tick labels 90 degrees
 ```
 
 
-### Histogram of Data 
+### Histogram of Data
 
-As we did with the reflectance tile, it is often useful to plot a histogram of the geotiff data in order to get a sense of the range and distribution of values. First we'll make a copy of the array and remove the `nan` values. 
+As we did with the reflectance tile, it is often useful to plot a histogram of the geotiff data in order to get a sense of the range and distribution of values. First we'll make a copy of the array and remove the `nan` values.
 
 
 ```python
@@ -279,11 +279,11 @@ plt.xlabel('Tree Height (m)'); plt.ylabel('Relative Frequency')
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/classify_raster_with_threshold-2018-py/output_24_1.png)
 
 
-On your own, adjust the number of bins, and range of the y-axis to get a good idea of the distribution of the canopy height values. We can see that most of the values are zero. In SERC, many of the zero CHM values correspond to bodies of water as well as regions of land without trees. Let's look at a  histogram and plot the data without zero values: 
+On your own, adjust the number of bins, and range of the y-axis to get a good idea of the distribution of the canopy height values. We can see that most of the values are zero. In SERC, many of the zero CHM values correspond to bodies of water as well as regions of land without trees. Let's look at a  histogram and plot the data without zero values:
 
-Note that it appears that the trees don't have a smooth or normal distribution, but instead appear blocked off in chunks. This is an artifact of the Canopy Height Model algorithm, which bins the trees into 5m increments (this is done to avoid another artifact of "pits" (Khosravipour et al., 2014). 
+Note that it appears that the trees don't have a smooth or normal distribution, but instead appear blocked off in chunks. This is an artifact of the Canopy Height Model algorithm, which bins the trees into 5m increments (this is done to avoid another artifact of "pits" (Khosravipour et al., 2014).
 
-From the histogram we can see that the majority of the trees are < 30m. We can re-plot the CHM array, this time adjusting the color bar limits to better visualize the variation in canopy height. We will plot the non-zero array so that CHM=0 appears white. 
+From the histogram we can see that the majority of the trees are < 30m. We can re-plot the CHM array, this time adjusting the color bar limits to better visualize the variation in canopy height. We will plot the non-zero array so that CHM=0 appears white.
 
 ```python
 plot_band_array(chm_array,
@@ -299,13 +299,13 @@ plot_band_array(chm_array,
 
 ## Threshold Based Raster Classification
 Next, we will create a classified raster object. To do this, we will use the se the numpy.where function to create a new raster based off boolean classifications. Let's classify the canopy height into five groups:
-- Class 1: **CHM = 0 m** 
+- Class 1: **CHM = 0 m**
 - Class 2: **0m < CHM <= 10m**
 - Class 3: **10m < CHM <= 20m**
 - Class 4: **20m < CHM <= 30m**
 - Class 5: **CHM > 30m**
 
-We can use `np.where` to find the indices where a boolean criteria is met. 
+We can use `np.where` to find the indices where a boolean criteria is met.
 
 
 ```python
@@ -322,11 +322,11 @@ We can define our own colormap to plot these discrete classifications, and creat
 
 ```python
 import matplotlib.colors as colors
-plt.figure(); 
+plt.figure();
 cmapCHM = colors.ListedColormap(['lightblue','yellow','orange','green','red'])
 plt.imshow(chm_reclass,extent=chm_ext,cmap=cmapCHM)
 plt.title('SERC CHM Classification')
-ax=plt.gca(); ax.ticklabel_format(useOffset=False, style='plain') #do not use scientific notation 
+ax=plt.gca(); ax.ticklabel_format(useOffset=False, style='plain') #do not use scientific notation
 rotatexlabels = plt.setp(ax.get_xticklabels(),rotation=90) #rotate x tick labels 90 degrees
 
 # Create custom legend to label the four canopy height classes:
@@ -355,8 +355,8 @@ ax.legend(handles=[class1_box,class2_box,class3_box,class4_box,class5_box],
 <div id="ds-challenge" markdown="1">
 **Challenge: Document Your Workflow**
 
-1. Look at the code that you created for this lesson. Now imagine yourself months in the future. Document your script so that your methods and process is clear and reproducible for yourself or others to follow when you come back to this work at a later date. 
-2. In documenting your script, synthesize the outputs. Do they tell you anything about the vegetation structure at the field site? 
+1. Look at the code that you created for this lesson. Now imagine yourself months in the future. Document your script so that your methods and process is clear and reproducible for yourself or others to follow when you come back to this work at a later date.
+2. In documenting your script, synthesize the outputs. Do they tell you anything about the vegetation structure at the field site?
 
 </div>
 
@@ -370,28 +370,28 @@ Create the following threshold classified outputs:
     * Low greenness: NDVI < 0.3
     * Medium greenness: 0.3 < NDVI < 0.6
     * High greenness: NDVI > 0.6
-2. A raster where aspect is classified into North and South facing slopes: 
-    * North: 0-45 & 315-360 degrees 
+2. A raster where aspect is classified into North and South facing slopes:
+    * North: 0-45 & 315-360 degrees
     * South: 135-225 degrees
 
  <figure>
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/lidar/NSEWclassification_BozEtAl2015.jpg">
 	<img src="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/lidar/NSEWclassification_BozEtAl2015.jpg"></a>
-	<figcaption> Reclassification of aspect (azimuth) values: North, 315-45 
+	<figcaption> Reclassification of aspect (azimuth) values: North, 315-45
 	degrees; East, 45-135 degrees; South, 135-225 degrees; West, 225-315 degrees.
 	Source: <a href="http://www.aimspress.com/article/10.3934/energy.2015.3.401/fulltext.html"> Boz et al. 2015 </a>
 	</figcaption>
 </figure>
 
-**Data Institute Participants:** When you are finished, export your outputs to 
-HTML by selecting File > Download As > HTML (.html). Save the file as 
-LastName_Tues_classifyThreshold.html. Add this to the Tuesday directory in your 
-DI-NEON-participants Git directory and push them to your fork in GitHub. Merge 
+**Data Institute Participants:** When you are finished, export your outputs to
+HTML by selecting File > Download As > HTML (.html). Save the file as
+LastName_Tues_classifyThreshold.html. Add this to the Tuesday directory in your
+DI-NEON-participants Git directory and push them to your fork in GitHub. Merge
 with the central repository using a pull request.
 
 </div>
 
-## References 
+## References
 
-Khosravipour, Anahita & Skidmore, Andrew & Isenburg, Martin & Wang, Tiejun & Hussin, Yousif. (2014). <a href="https://www.researchgate.net/publication/273663100_Generating_Pit-free_Canopy_Height_Models_from_Airborne_Lidar" target="_blank"> Generating Pit-free Canopy Height Models from Airborne Lidar. Photogrammetric Engineering & Remote Sensing</a>. 80. 863-872. 10.14358/PERS.80.9.863. 
+Khosravipour, Anahita & Skidmore, Andrew & Isenburg, Martin & Wang, Tiejun & Hussin, Yousif. (2014). <a href="https://www.researchgate.net/publication/273663100_Generating_Pit-free_Canopy_Height_Models_from_Airborne_Lidar" target="_blank"> Generating Pit-free Canopy Height Models from Airborne Lidar. Photogrammetric Engineering & Remote Sensing</a>. 80. 863-872. 10.14358/PERS.80.9.863.
 

@@ -1,7 +1,7 @@
 ---
 syncID: 3ec7fdf776644134877f8c4d86fad09d
 title: "Time Series Culmination Activity: Plot using Facets & Plot NDVI with Time Series Data"
-description: "This tutorial is a data integration wrap-up culmination activity for the spatio-temporal time series tutorials."
+description: "Test - This tutorial is a data integration wrap-up culmination activity for the spatio-temporal time series tutorials."
 dateCreated: 2015-10-22
 authors: Megan A. Jones, Leah A. Wasser
 contributors:
@@ -15,7 +15,7 @@ tutorialSeries: tabular-time-series
 urlTitle: dc-culm-activity-ndvi-met-data-r
 ---
 
-This tutorial is a culmination activity for the series on 
+This tutorial is a culmination activity for the series on
 <a href="https://www.neonscience.org/tabular-time-series" target="_blank"> working with tabular time series data in R </a>.
 Other related series include:
 <a href="https://www.neonscience.org/spatial-data-management-series" target="_blank"> intro to spatio-temporal data and data management</a>,
@@ -29,7 +29,7 @@ and
 After completing this tutorial, you will be able to:
 
  * Apply `ggplot2` and `dplyr` skills to a new dataset.
- * Set min/max axis values in `ggplot()` to align data on multiple plots. 
+ * Set min/max axis values in `ggplot()` to align data on multiple plots.
 
 ## Things You’ll Need To Complete This Tutorial
 You will need the most current version of R and, preferably, RStudio loaded on
@@ -46,12 +46,12 @@ your computer to complete this tutorial.
 
 <a href="https://www.neonscience.org/packages-in-r" target="_blank"> More on Packages in R </a>– Adapted from Software Carpentry.
 
-### Download Data 
+### Download Data
 <h3> <a href="https://ndownloader.figshare.com/files/3701572" > NEON Teaching Data Subset: Meteorological Data for Harvard Forest</a></h3>
 
-The data used in this lesson were collected at the 
-<a href="https://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a> 
-<a href="https://www.neonscience.org/field-sites/field-sites-map/HARV" target="_blank"> Harvard Forest field site</a>. 
+The data used in this lesson were collected at the
+<a href="https://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a>
+<a href="https://www.neonscience.org/field-sites/field-sites-map/HARV" target="_blank"> Harvard Forest field site</a>.
 These data are proxy data for what will be available for 30 years on the
  <a href="http://data.neonscience.org/" target="_blank">NEON data portal</a>
 for the Harvard Forest and other field sites located across the United States.
@@ -64,13 +64,13 @@ for the Harvard Forest and other field sites located across the United States.
 
 ****
 
-**Set Working Directory:** This lesson assumes that you have set your working 
-directory to the location of the downloaded and unzipped data subsets. 
+**Set Working Directory:** This lesson assumes that you have set your working
+directory to the location of the downloaded and unzipped data subsets.
 
 <a href="https://www.neonscience.org/set-working-directory-r" target="_blank"> An overview
 of setting the working directory in R can be found here.</a>
 
-**R Script & Challenge Code:** NEON data lessons often contain challenges that reinforce 
+**R Script & Challenge Code:** NEON data lessons often contain challenges that reinforce
 learned skills. If available, the code for challenge solutions is found in the
 downloadable R script of the entire lesson, available in the footer of each lesson page.
 
@@ -78,12 +78,12 @@ downloadable R script of the entire lesson, available in the footer of each less
 ****
 
 ### Recommended Tutorials
-This tutorial uses both `dplyr` and `ggplot2`. If you are new to either of these 
-R packages, we recommend the following NEON Data Skills tutorials before 
+This tutorial uses both `dplyr` and `ggplot2`. If you are new to either of these
+R packages, we recommend the following NEON Data Skills tutorials before
 working through this one.
 
 * <a href="https://www.neonscience.org/dc-time-series-subset-dplyr-r" target="_blank">*Subset & Manipulate Time Series Data with dplyr* tutorial</a>.
-* <a href="https://www.neonscience.org/dc-time-series-plot-ggplot-r" target="_blank">*Plotting Time Series with ggplot in R* tutorial</a>. 
+* <a href="https://www.neonscience.org/dc-time-series-plot-ggplot-r" target="_blank">*Plotting Time Series with ggplot in R* tutorial</a>.
 
 </div>
 
@@ -91,11 +91,11 @@ working through this one.
 
 ### NDVI Data
 Normalized Difference Vegetation Index (NDVI) is an indicator of how green
-vegetation is. 
+vegetation is.
 
-Watch this two and a half minute video from 
-<a href="https://www.youtube.com/channel/UCiZVuWsVsEG1BhJW1_YwI0A" target="_blank"> Karen Joyce</a> 
-that explains what NDVI is and why it is used. 
+Watch this two and a half minute video from
+<a href="https://www.youtube.com/channel/UCiZVuWsVsEG1BhJW1_YwI0A" target="_blank"> Karen Joyce</a>
+that explains what NDVI is and why it is used.
 
 <iframe width="640" height="360" src="https://www.youtube.com/embed/rxOMhQwApMc" frameborder="0" allowfullscreen></iframe>
 
@@ -106,41 +106,41 @@ vary from -1.0 to 1.0.
 The imagery data used to create this NDVI data were collected over the National
 Ecological Observatory Network's
 <a href="https://www.neonscience.org/field-sites/field-sites-map/HARV" target="_blank" >Harvard Forest</a>
-field site. 
+field site.
 
-The imagery was created by the U.S. Geological Survey (USGS) using a 
+The imagery was created by the U.S. Geological Survey (USGS) using a
 <a href="http://eros.usgs.gov/#/Find_Data/Products_and_Data_Available/MSS" target="_blank" >  multispectral scanner</a>
 on a
 <a href="http://landsat.usgs.gov" target="_blank" > Landsat Satellite </a>.
-The data files are Geographic Tagged Image-File Format (GeoTIFF). 
-The tutorial 
-<a href="https://www.neonscience.org/dc-ndvi-calc-raster-time-series" target="_blank">*Extract NDVI Summary Values from a Raster Time Series* </a> 
-explains how to create this NDVI file from raster data. 
+The data files are Geographic Tagged Image-File Format (GeoTIFF).
+The tutorial
+<a href="https://www.neonscience.org/dc-ndvi-calc-raster-time-series" target="_blank">*Extract NDVI Summary Values from a Raster Time Series* </a>
+explains how to create this NDVI file from raster data.
 
 ### Read In the Data
 We need to read in two datasets: the 2009-2011 micrometeorological data and the
-2011 NDVI data for the Harvard Forest. 
+2011 NDVI data for the Harvard Forest.
 
 
     # Remember it is good coding technique to add additional libraries to the top of
-    # your script 
-    
+    # your script
+
     library(lubridate) # for working with dates
     library(ggplot2)  # for creating graphs
     library(scales)   # to access breaks/formatting functions
     library(gridExtra) # for arranging plots
     library(grid)   # for arrangeing plots
     library(dplyr)  # for subsetting by season
-    
+
     # set working directory to ensure R can find the file we wish to import
     # setwd("working-dir-path-here")
-    
+
     # read in the Harvard micro-meteorological data; if you don't already have it
     harMetDaily.09.11 <- read.csv(
       file="NEON-DS-Met-Time-Series/HARV/FisherTower-Met/Met_HARV_Daily_2009_2011.csv",
       stringsAsFactors = FALSE
       )
-    
+
     #check out the data
     str(harMetDaily.09.11)
 
@@ -193,12 +193,12 @@ We need to read in two datasets: the 2009-2011 micrometeorological data and the
     ##  $ s10tmin  : num  1 1 1 1 1 1 1 1.1 1.3 1.2 ...
     ##  $ f.s10tmin: logi  NA NA NA NA NA NA ...
 
-    # read in the NDVI CSV data; if you dont' already have it 
+    # read in the NDVI CSV data; if you dont' already have it
     NDVI.2011 <- read.csv(
-      file="NEON-DS-Met-Time-Series/HARV/NDVI/meanNDVI_HARV_2011.csv", 
+      file="NEON-DS-Met-Time-Series/HARV/NDVI/meanNDVI_HARV_2011.csv",
       stringsAsFactors = FALSE
       )
-    
+
     # check out the data
     str(NDVI.2011)
 
@@ -222,11 +222,11 @@ the original raster).
 
 <div id="ds-challenge" markdown="1">
 ### Challenge: Class Conversion & Subset by Time
-The goal of this challenge is to get our datasets ready so that we can work 
-with data from each, within the same plots or analyses.  
+The goal of this challenge is to get our datasets ready so that we can work
+with data from each, within the same plots or analyses.
 
 1. Ensure that date fields within both datasets are in the Date class. If not,
-convert the data to the Date class. 
+convert the data to the Date class.
 
 2. The NDVI data are limited to 2011, however, the meteorological data are from
 2009-2011. Subset and retain only the 2011 meteorological data. Name it
@@ -239,7 +239,7 @@ HINT: If you are having trouble subsetting the data, refer back to
 
 
 Now that we have our datasets with Date class dates and limited to 2011, we can
-begin working with both. 
+begin working with both.
 
 ## Plot NDVI Data from a .csv
 These NDVI data were derived from a raster and are now integers in a
@@ -264,39 +264,39 @@ or temperature (scale: -20 to 30 C) that we want to plot over time, we cannot
 simply plot them on the same plot as they have different y-axes.
 
 One option, would be to plot both data types in the same plot space but each
-having it's own axis (one on left of plot and one on right of plot).  However, 
+having it's own axis (one on left of plot and one on right of plot).  However,
 there is a line of graphical representation thought that this is not a good
 practice.  The creator of `ggplot2` ascribes to this dislike of different y-axes
-and so neither `qplot` nor `ggplot` have this functionality. 
+and so neither `qplot` nor `ggplot` have this functionality.
 
-Instead, plots of different types of data can be plotted next to each other to 
+Instead, plots of different types of data can be plotted next to each other to
 allow for comparison.  Depending on how the plots are being viewed, they can
-have a vertical or horizontal arrangement. 
+have a vertical or horizontal arrangement.
 
 <div id="ds-challenge" markdown="1">
 ### Challenge: Plot Air Temperature and NDVI
 
 Plot the NDVI vs Date (previous plot) and PAR vs Date (create a new plot) in the
-same viewer so we can more easily compare them. 
+same viewer so we can more easily compare them.
 
 Hint: If you are having a hard time arranging the plots in a single grid, refer
-back to 
+back to
 <a href="https://www.neonscience.org/dc-time-series-plot-ggplot-r" target="_blank">*Plotting Time Series with ggplot in R* tutorial</a>.
 </div>
 
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/tutorials/R/R-skills/intro-to-time-series/07-Culmination-Work-With-NDVI-and-Met-Data-In-R/rfigs/plot-PAR-NDVI-1.png)
 
 The figures from this Challenge are nice but a bit confusing as the dates on the
-x-axis don't exactly line up. To fix this we can **assign the same min and max 
-to both x-axes** so that they align. The syntax for this is: 
+x-axis don't exactly line up. To fix this we can **assign the same min and max
+to both x-axes** so that they align. The syntax for this is:
 
-`limits=c(min=VALUE,max=VALUE)`. 
+`limits=c(min=VALUE,max=VALUE)`.
 
-In our case we want the min and max values to 
-be based on the min and max of the `NDVI.2011$Date` so we'll use a function 
+In our case we want the min and max values to
+be based on the min and max of the `NDVI.2011$Date` so we'll use a function
 specifying this instead of a single value.
 
-We can also assign the date format for the x-axis and clearly label both axes. 
+We can also assign the date format for the x-axis and clearly label both axes.
 
 
     # plot PAR
@@ -306,27 +306,27 @@ We can also assign the date format for the x-axis and clearly label both axes.
                    date_minor_breaks= "1 week",
                    limits=c(min=min(NDVI.2011$Date),max=max(NDVI.2011$Date))) +
                    ylab("Total PAR") + xlab ("")
-    
+
     # plot NDVI
     plot2.NDVI.2011 <- plot.NDVI.2011 +
                    scale_x_date(labels = date_format("%b %d"),
-                   date_breaks = "3 months", 
+                   date_breaks = "3 months",
                    date_minor_breaks= "1 week",
                    limits=c(min=min(NDVI.2011$Date),max=max(NDVI.2011$Date)))+
                    ylab("Total NDVI") + xlab ("Date")
-    
+
     # Output with both plots
-    grid.arrange(plot2.par.2011, plot2.NDVI.2011) 
+    grid.arrange(plot2.par.2011, plot2.NDVI.2011)
 
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/tutorials/R/R-skills/intro-to-time-series/07-Culmination-Work-With-NDVI-and-Met-Data-In-R/rfigs/plot-same-xaxis-1.png)
 
 <div id="ds-challenge" markdown="1">
 ### Challenge: Plot Air Temperature and NDVI
 Create a plot, complementary to those above, showing air temperature (`airt`)
-throughout 2011. Choose colors and symbols that show the data well. 
+throughout 2011. Choose colors and symbols that show the data well.
 
 Second, plot PAR, air temperature and NDVI in a single pane for ease of
-comparison.  
+comparison.
 </div>
 
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/tutorials/R/R-skills/intro-to-time-series/07-Culmination-Work-With-NDVI-and-Met-Data-In-R/rfigs/challengeplot-same-xaxis-1.png)![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/tutorials/R/R-skills/intro-to-time-series/07-Culmination-Work-With-NDVI-and-Met-Data-In-R/rfigs/challengeplot-same-xaxis-2.png)

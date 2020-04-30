@@ -1,11 +1,11 @@
 ---
 syncID: 61ad1fc43ddd45b49cad1bca48656bbe
-title: "NEON AOP Hyperspectral Data in HDF5 format with Python - Tiled Data" 
-description: "Learn how to read NEON AOP hyperspectral tiled hdf5 data using Python and develop skills to manipulate and visualize spectral data."
-dateCreated: 2018-07-04 
+title: "NEON AOP Hyperspectral Data in HDF5 format with Python - Tiled Data"
+description: "Test - Learn how to read NEON AOP hyperspectral tiled hdf5 data using Python and develop skills to manipulate and visualize spectral data."
+dateCreated: 2018-07-04
 authors: Bridget Hass
-contributors: 
-estimatedTime: 
+contributors:
+estimatedTime:
 packagesLibraries: numpy, matplotlib, h5py
 topics: hyperspectral-remote-sensing, HDF5, remote-sensing
 languagesTool: python
@@ -17,9 +17,9 @@ urlTitle: neon-aop-hdf5-tile-py
 
 
 In this introductory tutorial, we discuss how to read NEON AOP hyperspectral tiled
-data using Python. We develop tools to manipulate and visualize the spectral data. 
+data using Python. We develop tools to manipulate and visualize the spectral data.
 
-If you are interested in learning how to do this for flightline NEON AOP hyperspectral data, 
+If you are interested in learning how to do this for flightline NEON AOP hyperspectral data,
 please see <a href="https://www.neonscience.org/neon-aop-hdf5-py" target="_blank"> NEON AOP Hyperspectral Data in HDF5 format with Python - Flightlines</a>.
 
 <div id="ds-objectives" markdown="1">
@@ -29,39 +29,39 @@ please see <a href="https://www.neonscience.org/neon-aop-hdf5-py" target="_blank
 After completing this tutorial, you will be able to:
 
 * Import and use Python packages `numpy, matplotlib, and h5py`.
-* Use the package `h5py` and the `visititems` functionality to read an HDF5 file 
+* Use the package `h5py` and the `visititems` functionality to read an HDF5 file
 and view data attributes.
-* Read the data ignore value and scaling factor and apply these values to produce 
+* Read the data ignore value and scaling factor and apply these values to produce
 a cleaned reflectance array.
 * Extract and plot a single band of reflectance data
-* Plot a histogram of reflectance values to visualize the range and distribution 
-of values. 
+* Plot a histogram of reflectance values to visualize the range and distribution
+of values.
 
 
 ### Install Python Packages
 
 * **numpy**
-* **matplotlib** 
+* **matplotlib**
 * **h5py**
 
 
 ### Download Data
 
-<h3> NEON Teaching Data Subset: Data Institute 2018</h3> 
+<h3> NEON Teaching Data Subset: Data Institute 2018</h3>
 
 To complete these materials, you will use data available from the NEON 2018 Data
-Institute teaching datasets available for download. 
+Institute teaching datasets available for download.
 
-The combined data sets below contain about 10 GB of data. Please consider how 
-large your hard drive is prior to downloading. If needed you may want to use an 
-external hard drive. 
+The combined data sets below contain about 10 GB of data. Please consider how
+large your hard drive is prior to downloading. If needed you may want to use an
+external hard drive.
 
-The LiDAR and imagery data used to create this raster teaching data subset 
-were collected over the 
-<a href="http://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a> 
+The LiDAR and imagery data used to create this raster teaching data subset
+were collected over the
+<a href="http://www.neonscience.org/" target="_blank"> National Ecological Observatory Network's</a>
 <a href="http://www.neonscience.org/science-design/field-sites/" target="_blank" >field sites</a>
 and processed at NEON headquarters.
-All NEON data products can be accessed on the 
+All NEON data products can be accessed on the
 <a href="http://data.neonscience.org" target="_blank"> NEON data portal</a>.
 
 <a href="https://neondata.sharefile.com/d-s7788427bae04c6c9" target="_blank"class="link--button link--arrow">
@@ -70,7 +70,7 @@ Download Lidar & Hyperspectral Dataset</a>
 <a href="https://neondata.sharefile.com/d-s58db39240bf49ac8" target="_blank" class="link--button link--arrow">
 Download the Biomass Calculation Dataset</a>
 
-The link below contains all the data from the 2017 Data Institute (17 GB). <strong>For 2018, we ONLY 
+The link below contains all the data from the 2017 Data Institute (17 GB). <strong>For 2018, we ONLY
 need the data in the CHEQ, F07A, and PRIN subfolders.</strong> To minimize the size of your
 download, please select only these subdirectories to download.
 
@@ -88,14 +88,14 @@ Hyperspectral remote sensing data is a useful tool for measuring changes to our 
 
 #### Mapping the Invisible: Introduction to Spectral Remote Sensing
 
-For more information on spectral remote sensing watch this video. 
+For more information on spectral remote sensing watch this video.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/3iaFzafWJQE" frameborder="0" allowfullscreen></iframe>
 
 
 ## Set up
 
-Before we start coding, make sure you are using the correct version of Python. As of July 2018, the `gdal` package is compatible with Python versions 3.5 and earlier. For these lessons we will use Python version 3.5. 
+Before we start coding, make sure you are using the correct version of Python. As of July 2018, the `gdal` package is compatible with Python versions 3.5 and earlier. For these lessons we will use Python version 3.5.
 
 
 ```python
@@ -132,7 +132,7 @@ warnings.filterwarnings('ignore')
 
 ## Read in hdf5
 
-```f = h5py.File('file.h5','r')``` reads in an h5 file to the variable f. 
+```f = h5py.File('file.h5','r')``` reads in an h5 file to the variable f.
 
 ### Getting help on functions: `help` and `?`
 We will be using a number of built-in and user-defined functions and methods throughout the tutorial. If you are uncertain what a certain function does, or how to call it, you can type `help()` or type `?` at the end of the function or method and run the cell (either select Cell > Run Cells or Shift Enter with your cursor in the cell you want to run). The `?` will pop up a window at the bottom of the notebook displaying the function's `docstrings`, which includes information about the function and usage. We encourage you to use `help` and `?` throughout the tutorial as you come across functions you are unfamiliar with. Let's try this out with `h5py.File`:
@@ -143,14 +143,14 @@ help(h5py)
 ```
 
     Help on package h5py:
-    
+
     NAME
         h5py
-    
+
     DESCRIPTION
         This is the h5py package, a Python interface to the HDF5
         scientific data format.
-    
+
     PACKAGE CONTENTS
         _conv
         _errors
@@ -179,50 +179,50 @@ help(h5py)
         tests (package)
         utils
         version
-    
+
     SUBMODULES
         filters
-    
+
     FUNCTIONS
         enable_ipython_completer()
             Call this from an interactive IPython session to enable tab-completion
             of group and attribute names.
-        
+
         get_config(...)
             () => H5PYConfig
-            
+
             Get a reference to the global library configuration object.
-        
+
         get_enum = py_get_enum(...)
             (DTYPE dt_in) => DICT
-            
+
             Deprecated; use check_dtype() instead.
-        
+
         get_vlen = py_get_vlen(...)
             (OBJECT dt_in) => TYPE
-            
+
             Deprecated; use check_dtype() instead.
-        
+
         new_enum = py_new_enum(...)
             (DTYPE dt_in, DICT enum_vals) => DTYPE
-            
+
             Deprecated; use special_dtype() instead.
-        
+
         new_vlen = py_new_vlen(...)
             (OBJECT kind) => DTYPE
-            
+
             Deprecated; use special_dtype() instead.
-    
+
     DATA
         absolute_import = _Feature((2, 5, 0, 'alpha', 1), (3, 0, 0, 'alpha', 0...
-    
+
     VERSION
         2.7.1
-    
+
     FILE
         c:\users\bhass\appdata\local\continuum\anaconda3\envs\py35\lib\site-packages\h5py\__init__.py
-    
-    
+
+
 
 
 
@@ -230,11 +230,11 @@ help(h5py)
 h5py.File?
 ```
 
-Now that we have an idea of how to use `h5py` to read in an h5 file, let's try it out. Note that if the h5 file is stored in a different directory than where you are running your notebook, you need to include the path (either relative or absolute) to the directory where that data file is stored. Use `os.path.join` to create the full path of the file. 
+Now that we have an idea of how to use `h5py` to read in an h5 file, let's try it out. Note that if the h5 file is stored in a different directory than where you are running your notebook, you need to include the path (either relative or absolute) to the directory where that data file is stored. Use `os.path.join` to create the full path of the file.
 
 
 ```python
-f = h5py.File('../../data/NEON_D02_SERC_DP3_368000_4306000_reflectance.h5','r') 
+f = h5py.File('../../data/NEON_D02_SERC_DP3_368000_4306000_reflectance.h5','r')
 ```
 
 ## Explore NEON AOP HDF5 Reflectance Files
@@ -299,7 +299,7 @@ You can see that there is a lot of information stored inside this reflectance hd
 - `SERC/Reflectance/Reflectance_Data`
 - `SERC/Reflectance/Metadata/Coordinate_System/`
 
-We can also display the name, shape, and type of each of these datasets using the `ls_dataset` function defined below, which is also called with the `visititems` method: 
+We can also display the name, shape, and type of each of these datasets using the `ls_dataset` function defined below, which is also called with the `visititems` method:
 
 
 ```python
@@ -363,7 +363,7 @@ f.visititems(ls_dataset)
     <HDF5 dataset "Reflectance_Data": shape (1000, 1000, 426), type "<i2">
 
 
-Now that we can see the structure of the hdf5 file, let's take a look at some of the information that is stored inside. Let's start by extracting the reflectance data, which is nested under `SERC/Reflectance/Reflectance_Data`:  
+Now that we can see the structure of the hdf5 file, let's take a look at some of the information that is stored inside. Let's start by extracting the reflectance data, which is nested under `SERC/Reflectance/Reflectance_Data`:
 
 
 ```python
@@ -432,7 +432,7 @@ Finally, we can determine the band widths (distance between center bands of two 
 
 
 ```python
-#show the band widths between the first 2 bands and last 2 bands 
+#show the band widths between the first 2 bands and last 2 bands
 print('band width between first 2 bands =',(wavelengths.value[1]-wavelengths.value[0]),'nm')
 print('band width between last 2 bands =',(wavelengths.value[-1]-wavelengths.value[-2]),'nm')
 ```
@@ -458,13 +458,13 @@ Here we can spatial information about the reflectance data. Below is a break dow
 
 - `UTM` - coordinate system (Universal Transverse Mercator)
 - `1.000, 1.000` - pixel origin
-- `368000.000, 4307000.0` - UTM coordinates (meters) of the map origin, which refers to the upper-left corner of the image  (xMin, yMax). 
+- `368000.000, 4307000.0` - UTM coordinates (meters) of the map origin, which refers to the upper-left corner of the image  (xMin, yMax).
 - `1.0000000, 1.0000000` - pixel resolution (meters)
 - `18` - UTM zone
 - `N` - UTM hemisphere (North for all NEON sites)
 - `WGS-84` - reference ellipoid
 
-The letter `b` that appears before UTM signifies that the variable-length string data is stored in **b**inary format when it is written to the hdf5 file. Don't worry about it for now, as we will convert the numerical data we need into floating point numbers. For more information on hdf5 strings read the <a href="http://docs.h5py.org/en/latest/strings.html" target="_blank">h5py documentation</a>. 
+The letter `b` that appears before UTM signifies that the variable-length string data is stored in **b**inary format when it is written to the hdf5 file. Don't worry about it for now, as we will convert the numerical data we need into floating point numbers. For more information on hdf5 strings read the <a href="http://docs.h5py.org/en/latest/strings.html" target="_blank">h5py documentation</a>.
 
 Let's extract relevant information from the `Map_Info` metadata to define the spatial extent of this dataset. To do this, we can use the `split` method to break up this string into separate values:
 
@@ -479,15 +479,15 @@ mapInfo_string.split?
 
 
 ```python
-#split the strings using the separator "," 
-mapInfo_split = mapInfo_string.split(",") 
+#split the strings using the separator ","
+mapInfo_split = mapInfo_string.split(",")
 print(mapInfo_split)
 ```
 
     ["b'UTM", '  1.000', '  1.000', '       368000.00', '       4307000.0', '       1.0000000', '       1.0000000', '  18', '  North', '  WGS-84', '  units=Meters', " 0'"]
 
 
-Now we can extract the spatial information we need from the map info values, convert them to the appropriate data type (float) and store it in a way that will enable us to access and apply it later when we want to plot the data: 
+Now we can extract the spatial information we need from the map info values, convert them to the appropriate data type (float) and store it in a way that will enable us to access and apply it later when we want to plot the data:
 
 
 ```python
@@ -502,7 +502,7 @@ print('Resolution:',res)
 
 ```python
 #Extract the upper left-hand corner coordinates from mapInfo
-xMin = float(mapInfo_split[3]) 
+xMin = float(mapInfo_split[3])
 yMax = float(mapInfo_split[4])
 
 #Calculate the xMax and yMin values from the dimensions
@@ -542,17 +542,17 @@ print('Band 56 Reflectance:\n',b56)
      [[  254.   241.   250. ...,   334.   313.   330.]
      [  253.   260.   624. ...,   281.   311.   291.]
      [  262.   413.  1050. ...,   295.   349.   280.]
-     ..., 
+     ...,
      [  281.   231.   292. ...,  1168.   978.   916.]
      [  240.   222.   189. ...,  1654.  1728.  1694.]
      [  319.   329.   317. ...,  1176.  1466.  1582.]]
 
 
-Here we can see that we extracted a 2-D array (1000 x 1000) of the scaled reflectance data corresponding to the wavelength band 56. Before we can use the data, we need to clean it up a little. We'll show how to do this below. 
+Here we can see that we extracted a 2-D array (1000 x 1000) of the scaled reflectance data corresponding to the wavelength band 56. Before we can use the data, we need to clean it up a little. We'll show how to do this below.
 
 ##  Scale factor and No Data Value
 
-This array represents the scaled reflectance for band 56. Recall from exploring the HDF5 data in HDFViewer that NEON AOP reflectance data uses a `Data_Ignore_Value` of `-9999` to represent missing data (often called `NaN`), and a reflectance `Scale_Factor` of `10000.0` in order to save disk space (can use lower precision this way). 
+This array represents the scaled reflectance for band 56. Recall from exploring the HDF5 data in HDFViewer that NEON AOP reflectance data uses a `Data_Ignore_Value` of `-9999` to represent missing data (often called `NaN`), and a reflectance `Scale_Factor` of `10000.0` in order to save disk space (can use lower precision this way).
 
  <figure>
 	<a href="https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/hyperspectral/hdfview_SERCrefl.png">
@@ -583,7 +583,7 @@ print('Cleaned Band 56 Reflectance:\n',b56)
      [[ 0.0254  0.0241  0.025  ...,  0.0334  0.0313  0.033 ]
      [ 0.0253  0.026   0.0624 ...,  0.0281  0.0311  0.0291]
      [ 0.0262  0.0413  0.105  ...,  0.0295  0.0349  0.028 ]
-     ..., 
+     ...,
      [ 0.0281  0.0231  0.0292 ...,  0.1168  0.0978  0.0916]
      [ 0.024   0.0222  0.0189 ...,  0.1654  0.1728  0.1694]
      [ 0.0319  0.0329  0.0317 ...,  0.1176  0.1466  0.1582]]
@@ -591,20 +591,20 @@ print('Cleaned Band 56 Reflectance:\n',b56)
 
 ## Plot single reflectance band
 
-Now we can plot this band using the Python package ```matplotlib.pyplot```, which we imported at the beginning of the lesson as ```plt```. Note that the default colormap is jet unless otherwise specified. You can explore using different colormaps on your own; see the <a href="https://matplotlib.org/examples/color/colormaps_reference.html" target="_blank">mapplotlib colormaps</a> for  for other options. 
+Now we can plot this band using the Python package ```matplotlib.pyplot```, which we imported at the beginning of the lesson as ```plt```. Note that the default colormap is jet unless otherwise specified. You can explore using different colormaps on your own; see the <a href="https://matplotlib.org/examples/color/colormaps_reference.html" target="_blank">mapplotlib colormaps</a> for  for other options.
 
 
 ```python
-serc_plot = plt.imshow(b56,extent=serc_ext,cmap='Greys') 
+serc_plot = plt.imshow(b56,extent=serc_ext,cmap='Greys')
 ```
 
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/intro-NEON-HDF5-reflectance-tiles/output_45_0.png)
 
-We can see that this image looks pretty washed out. To see why this is, it helps to look at the range and distribution of reflectance values that we are plotting. We can do this by making a histogram. 
+We can see that this image looks pretty washed out. To see why this is, it helps to look at the range and distribution of reflectance values that we are plotting. We can do this by making a histogram.
 
 ## Plot histogram
 
-We can plot a histogram using the `matplotlib.pyplot.hist` function. Note that this function won't work if there are any NaN values, so we can ensure we are only plotting the real data values using the call below. You can also specify the # of bins you want to divide the data into. 
+We can plot a histogram using the `matplotlib.pyplot.hist` function. Note that this function won't work if there are any NaN values, so we can ensure we are only plotting the real data values using the call below. You can also specify the # of bins you want to divide the data into.
 
 
 ```python
@@ -617,7 +617,7 @@ We can see that most of the reflectance values are < 0.4. In order to show more 
 
 
 ```python
-serc_plot = plt.imshow(b56,extent=serc_ext,cmap='Greys',clim=(0,0.4)) 
+serc_plot = plt.imshow(b56,extent=serc_ext,cmap='Greys',clim=(0,0.4))
 plt.title('SERC Band 56 Reflectance');
 ```
 
@@ -625,4 +625,4 @@ plt.title('SERC Band 56 Reflectance');
 
 
 
-Here you can see that adjusting the colorlimit displays features (eg. roads, buildings) much better than when we set the colormap limits to the entire range of reflectance values. 
+Here you can see that adjusting the colorlimit displays features (eg. roads, buildings) much better than when we set the colormap limits to the entire range of reflectance values.

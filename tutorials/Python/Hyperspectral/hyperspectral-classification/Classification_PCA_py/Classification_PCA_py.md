@@ -1,8 +1,8 @@
 ---
 syncID: 9a1e6798f2e94a71bbcd1c6a1f5946d2
 title: "Classification of Hyperspectral Data with Principal Components Analysis (PCA) in Python"
-description: "Learn to classify spectral data using the Principal Components Analysis (PCA) method."
-dateCreated: 2017-06-21 
+description: "Test - Learn to classify spectral data using the Principal Components Analysis (PCA) method."
+dateCreated: 2017-06-21
 authors: Paul Gader
 contributors:
 estimatedTime:
@@ -15,8 +15,8 @@ tutorialSeries: intro-hsi-py-series
 urlTitle: classification-pca-python
 ---
 
-In this tutorial, we will learn to classify spectral data using the 
-Principal Components Analysis (PCA) method. 
+In this tutorial, we will learn to classify spectral data using the
+Principal Components Analysis (PCA) method.
 
 
 <div id="ds-objectives" markdown="1">
@@ -24,14 +24,14 @@ Principal Components Analysis (PCA) method.
 ### Objectives
 After completing this tutorial, you will be able to:
 
-* Classify spectral remote sensing data using Principal Components Analysis. 
+* Classify spectral remote sensing data using Principal Components Analysis.
 
 ### Install Python Packages
 
 * **numpy**
-* **gdal** 
-* **matplotlib** 
-* **matplotlib.pyplot** 
+* **gdal**
+* **matplotlib**
+* **matplotlib.pyplot**
 
 
 ### Download Data
@@ -42,7 +42,7 @@ Download the spectral classification teaching data subset</a>
 ### Additional Materials
 
 This tutorial was prepared in conjunction with a presentation on spectral classification
-that can be downloaded. 
+that can be downloaded.
 
 <a href="https://ndownloader.figshare.com/files/8730613" class="btn btn-success">
 Download Dr. Paul Gader's Classification 1 PPT</a>
@@ -57,7 +57,7 @@ Download Dr. Paul Gader's Classification 3 PPT</a>
 
 
 ## Set up
-First, we'll start by setting up the necessary environment. 
+First, we'll start by setting up the necessary environment.
 
 ```python
 import numpy as np
@@ -81,7 +81,7 @@ def PlotSpectraAndMean(Spectra, Wv, fignum):
     return mu
 ```
 
-Now we can load the spectra. 
+Now we can load the spectra.
 
 
 ```python
@@ -98,7 +98,7 @@ print('{0:4d} {1:4d} {2:4d}'.format(NRows, NCols, NBands))
       62  194  346
 
 
-Now we can extract wavelengths. 
+Now we can extract wavelengths.
 
 
 ```python
@@ -284,7 +284,7 @@ np.shape(C)
 
 
 We can look at some of the values but there are too many to look at them all.
-We can also view C as an image. 
+We can also view C as an image.
 
 
 ```python
@@ -314,33 +314,33 @@ for rn in range(5, 50, 5):
         CovVal = int(100000*C[rn, rn])
         print('{0:5d}'.format(CovVal), end=" ")
     print('\n')
-    
+
 #print(round(100000*C[NEONBlue, NEONNir]))
 #print(round(100000*C[NEONGreen, NEONNir]))
 #print(round(100000*C[NEONRed, NEONNir]))
 #print(round(100000*C[NEONGreen, NEONRed]))
 ```
 
-            435   460   485   510   535   560   585   610   635 
-    
-      435   166   166   166   166   166   166   166   166   166 
-    
-      460   198   198   198   198   198   198   198   198   198 
-    
-      485   226   226   226   226   226   226   226   226   226 
-    
-      510   245   245   245   245   245   245   245   245   245 
-    
-      535   289   289   289   289   289   289   289   289   289 
-    
-      560   360   360   360   360   360   360   360   360   360 
-    
-      585   428   428   428   428   428   428   428   428   428 
-    
-      610   479   479   479   479   479   479   479   479   479 
-    
-      635   544   544   544   544   544   544   544   544   544 
-    
+            435   460   485   510   535   560   585   610   635
+
+      435   166   166   166   166   166   166   166   166   166
+
+      460   198   198   198   198   198   198   198   198   198
+
+      485   226   226   226   226   226   226   226   226   226
+
+      510   245   245   245   245   245   245   245   245   245
+
+      535   289   289   289   289   289   289   289   289   289
+
+      560   360   360   360   360   360   360   360   360   360
+
+      585   428   428   428   428   428   428   428   428   428
+
+      610   479   479   479   479   479   479   479   479   479
+
+      635   544   544   544   544   544   544   544   544   544
+
 
 
 Notice that there are no negative values.  Why?
@@ -385,7 +385,7 @@ for samp in range(NSamps):
     NormSamp = Norms[samp]
     for band in range(NBands):
         TinyVecsNorm[band, samp] = TinyVecs[band,samp]/NormSamp
-        
+
 Norms1 = np.sqrt(np.sum(TinyVecsNorm*TinyVecsNorm, axis=0))
 plt.figure(7)
 plt.plot(Norms1)
@@ -405,7 +405,7 @@ print('{0:4f} {1:4f}'.format(BigNorm, LitNorm))
 
 **Challenge: Plotting Spectra with Mean Function**
 
- Turn the script for plotting spectra and their mean above into a function. 
+ Turn the script for plotting spectra and their mean above into a function.
 
 </div>
 
@@ -457,26 +457,26 @@ for rn in range(5, 50, 5):
     print('\n')
 ```
 
-            435   460   485   510   535   560   585   610   635 
-    
-      435   253   253   253   253   253   253   253   253   253 
-    
-      460   269   269   269   269   269   269   269   269   269 
-    
-      485   289   289   289   289   289   289   289   289   289 
-    
-      510   284   284   284   284   284   284   284   284   284 
-    
-      535   263   263   263   263   263   263   263   263   263 
-    
-      560   303   303   303   303   303   303   303   303   303 
-    
-      585   397   397   397   397   397   397   397   397   397 
-    
-      610   455   455   455   455   455   455   455   455   455 
-    
-      635   523   523   523   523   523   523   523   523   523 
-    
+            435   460   485   510   535   560   585   610   635
+
+      435   253   253   253   253   253   253   253   253   253
+
+      460   269   269   269   269   269   269   269   269   269
+
+      485   289   289   289   289   289   289   289   289   289
+
+      510   284   284   284   284   284   284   284   284   284
+
+      535   263   263   263   263   263   263   263   263   263
+
+      560   303   303   303   303   303   303   303   303   303
+
+      585   397   397   397   397   397   397   397   397   397
+
+      610   455   455   455   455   455   455   455   455   455
+
+      635   523   523   523   523   523   523   523   523   523
+
 
 
 
@@ -554,11 +554,11 @@ plt.show()
 
 ![ ](https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/py-figs/classification_PCA/output_43_0.png)
 
-## PCA 
+## PCA
 
 OK, let's do PCA
 
-Recall that TinyVecs is the mean-subtracted version of the original spectra. 
+Recall that TinyVecs is the mean-subtracted version of the original spectra.
 
 
 ```python
@@ -633,36 +633,36 @@ for r in range(10):
     0.000931 0.000931
     0.000705 0.000705
     0.000561 0.000561
-    
-    49112     0     0     0     0     0     0     0     0     0 
-    
-        0  6534     0     0     0     0     0     0     0     0 
-    
-        0     0   831     0     0     0     0     0     0     0 
-    
-        0     0     0   132     0     0     0     0     0     0 
-    
-        0     0     0     0    40     0     0     0     0     0 
-    
-        0     0     0     0     0    32     0     0     0     0 
-    
-        0     0     0     0     0     0    13     0     0     0 
-    
-        0     0     0     0     0     0     0     9     0     0 
-    
-        0     0     0     0     0     0     0     0     7     0 
-    
-        0     0     0     0     0     0     0     0     0     5 
-    
+
+    49112     0     0     0     0     0     0     0     0     0
+
+        0  6534     0     0     0     0     0     0     0     0
+
+        0     0   831     0     0     0     0     0     0     0
+
+        0     0     0   132     0     0     0     0     0     0
+
+        0     0     0     0    40     0     0     0     0     0
+
+        0     0     0     0     0    32     0     0     0     0
+
+        0     0     0     0     0     0    13     0     0     0
+
+        0     0     0     0     0     0     0     9     0     0
+
+        0     0     0     0     0     0     0     0     7     0
+
+        0     0     0     0     0     0     0     0     0     5
 
 
-Notice that the values on the diagonal are the variances of each coordinate in 
-the PCA transformed data. They drop off rapidly which is why one can reduce 
-dimensionality by discarding components that have low variance. Also, notice that 
-the diagonal matrix D produce by diagonalizing the covariance of x is the 
+
+Notice that the values on the diagonal are the variances of each coordinate in
+the PCA transformed data. They drop off rapidly which is why one can reduce
+dimensionality by discarding components that have low variance. Also, notice that
+the diagonal matrix D produce by diagonalizing the covariance of x is the
 covariance of y = PCA(x).
 
-If the data are Gaussian, then the coordinates of y are uncorrelated and 
+If the data are Gaussian, then the coordinates of y are uncorrelated and
 independent.  If not, then only uncorrelated.
 
 Let's pull out the first 3 dimensions and plot them.

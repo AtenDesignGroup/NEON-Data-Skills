@@ -1,7 +1,7 @@
 ---
 syncID: d447575df18a45618504010a416da4ed
 title: "Git 01: Intro to Git Version Control"
-description: "This tutorial introduces the importance of version control in scientific workflows."
+description: "Test - This tutorial introduces the importance of version control in scientific workflows."
 dateCreated: 2016-05-06
 authors: Megan A. Jones
 contributors:
@@ -16,7 +16,7 @@ urlTitle: intro-git-version-control
 ---
 
 In this page, you will be introduced to the importance of version control in
-scientific workflows.  
+scientific workflows.
 
 <div id="ds-objectives" markdown="1">
 ## Learning Objectives
@@ -88,7 +88,7 @@ document to efficiently combine ideas and changes.
 **Thought Questions:** Think of a specific time when
 you weren’t using version control that it would have been useful.
 
-* Why would version control have been helpful to your project & work flow?  
+* Why would version control have been helpful to your project & work flow?
 * What were the consequences of not having a version control system in place?
 </div>
 
